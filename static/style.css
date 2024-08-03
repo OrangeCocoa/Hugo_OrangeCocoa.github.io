@@ -265,6 +265,32 @@ TOPページ右カラム
 }
 
 /*============================================
+ページトップに戻るボタン
+============================================*/
+#page_top
+{
+    width: 70px;
+    height: 70px;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background: #000;
+    opacity: 0.6;
+    border-radius: 50%;
+}
+
+#page_top::before
+{
+    content: "↑";
+    font-size: 50px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+
+/*============================================
 Markdownでも使うもの
 ============================================*/
 .deco_background_blue
