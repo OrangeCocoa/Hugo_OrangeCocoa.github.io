@@ -1,0 +1,16 @@
+baseURL = 'https://OrangeCocoa.github.io'
+languageCode = 'ja-jp'
+title = 'ぶろぐ'
+
+# セクション名を自動で複数形化するのを防ぐ
+pluralizeListTitles = false
+
+# Markdown内でHTMLを直接書けるようになる
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# Markdown内で任意のブロックにCSSを指定できるようになる
+[markup.goldmark.parser.attribute]
+block = true

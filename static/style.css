@@ -1,0 +1,260 @@
+/*============================================
+デフォルトタグ
+============================================*/
+html
+{
+    scroll-behavior: smooth;
+}
+
+body
+{
+    background-color : #f5f5f5;
+}
+
+header
+{
+    padding-top : 1%;
+    padding-bottom : 1%;
+}
+
+div
+{
+    display: block;
+    unicode-bidi: isolate;
+    padding-top : 5px;
+    padding-bottom : 5px;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+th
+{
+    border: 1px solid #3333;
+    border-color: gray;
+    padding : 10px;
+}
+
+td
+{
+    border: 1px solid #3333;
+    border-color: gray;
+    padding : 10px;
+}
+
+/*============================================
+ヘッダ
+============================================*/
+#header_title
+{
+    font-size : 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+#header_container
+{
+    margin: 0 auto;
+    max-width: 1500px;
+}
+
+ul#globalNavi
+{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0px 0 0px 0;
+    padding: 0;
+    text-align: center;
+    line-height: 1.125rem;
+    background-color: #1D0707;
+    background-position: left center;
+    list-style-type: none;
+}
+
+ul#globalNavi li
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+    width: 160px;
+}
+
+ul#globalNavi li a
+{
+    border-right: 1px solid #ddd;
+    padding: 9px 20px;
+    display: block;
+    position: relative;
+    color: #eee;
+    font-size: 18px;
+    background-position: left center;
+    text-decoration: none;
+    height: 18px;
+}
+
+ul#globalNavi li a:hover,
+ul#globalNavi li.current a
+{
+    color: #333;
+    background-color: #eee;
+    background-position: left center;
+}
+
+ul#globalNavi li a#navi_home,
+ul#globalNavi li a#navi_rss
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+ul#globalNavi li a#navi_about,
+ul#globalNavi li a#navi_contact,
+ul#globalNavi li a#navi_privacy
+{
+	font-size: 13px;
+	font-weight: bold;
+	padding: 9px 5px;
+}
+
+ul#globalNavi:after
+{
+    height: 0;
+    visibility: hidden;
+    content: ".";
+    display: block;
+    clear: both;
+}
+
+/*============================================
+TOPページ
+============================================*/
+.top_contents
+{
+    display: flex;
+    max-width: 960px;
+    margin: auto;
+}
+
+#trophy_card
+{
+    text-align: center;
+}
+
+/*============================================
+TOPページ左カラム 
+============================================*/
+.side_column_area
+{
+    order: 0;
+    width: 30%;
+    padding-left: 1rem;
+}
+
+.side_column_area_head
+{
+    font-weight : bold;
+    text-align: left;
+    margin-bottom : 1%;
+}
+
+.side_column_category
+{
+    color: #25a;
+}
+
+/*============================================
+TOPページ右カラム
+============================================*/
+.top_right
+{
+    width : 60%;
+    max-width : 900px;
+    margin-left: auto;
+    margin-right : auto;
+    order:1;
+    float: center;
+    background-color: #fff;
+}
+
+.main
+{
+    order: 1;
+    width: 70%;
+}
+
+.top_right_head
+{
+    font-weight : bold;
+    text-align: center;
+    margin-bottom : 1%;
+}
+
+.infotable
+{
+    width : 100%;
+    height : 140px;
+    background-color: #fff;
+    font-size: 0.9rem;
+    border : 1px solid #000;
+    display : block;
+    overflow-y: scroll;
+}
+
+/*============================================
+タイトル別ページ
+============================================*/
+.date
+{
+    width : 15%;
+}
+
+.contents
+{
+    order: 1;
+    width : 1500px;
+    margin-top : 3%;
+    margin: auto;
+}
+
+.contents_title
+{
+    font-size : 3.2rem;
+    font-weight: bold;
+    margin-top : 10px;
+}
+
+.contents_text
+{
+    background-color : #fff;
+    margin-top : 10px;
+    padding : 3% 5%;
+    border-radius: 10px;
+}
+
+.deco_background_blue
+{
+    color: #fff; /* 白文字 */
+    background-color: #596679; /* 青背景 */
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+.deco_background_red
+{
+    color: #fff; /* 白文字 */
+    background-color: #ee6666; /* 赤背景 */
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+.deco_background_black
+{
+    color: #fff; /* 白文字 */
+    background-color: #000; /* 黒背景 */
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+
+.indent
+{
+    text-indent: 1rem;
+}

@@ -1,0 +1,21 @@
+{{ partial "header.html" . }}
+{{ partial "side_column.html" . }}
+<div class="contents">
+    <div class="contents_date">{{ .Date.Format "2006.01.02" }}</div>
+    <div class="contents_title">{{ .Title }}</div>
+    <div >
+        {{ range .Params.tags }}
+            <a href="{{ $.Site.BaseURL }}blog/tags/{{ . | urlize}}">#{{ . }}</a>
+        {{ end }}
+    </div>
+    <div class="contents_text">{{ .Content }}</div>
+
+    <!-- utterances コメント欄の追加-->
+    <script src="https://utteranc.es/client.js"
+        repo="OrangeCocoa/OrangeCocoa.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>{{ partial "footer.html" . }}   

@@ -1,0 +1,21 @@
+{{ partial "header.html" . }}
+<div id="trophy_card">
+    <a href="https://psnprofiles.com/orange_cocoa_" target="_blank"><img src="https://card.psnprofiles.com/2/orange_cocoa_.png" border="0"></a>
+</div>
+<div class="top_contents">
+    {{ partial "side_column.html" . }}
+    <div class="top_right">
+        <div class="top_right_head">新着記事</div>
+        <div class="infotable">
+            {{ range .Site.RegularPages }}
+                <a>{{ .Date.Format "2006.01.02" }} </a>
+                <a href="{{ .RelPermalink }}" style="font-size:25px;">{{ .Title }}</a>
+                {{ range .Params.tags }}
+                    <a href="{{ $.Site.BaseURL }}blog/tags/{{ . | urlize}}" style="font-size:12px;">#{{ . }}</a>
+                {{ end }}
+                <br />
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ partial "footer.html" . }}
