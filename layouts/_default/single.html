@@ -1,21 +1,24 @@
 {{ partial "header.html" . }}
-{{ partial "side_column.html" . }}
-<div class="contents">
-    <div class="contents_date">{{ .Date.Format "2006.01.02" }}</div>
-    <div class="contents_title">{{ .Title }}</div>
-    <div >
-        {{ range .Params.tags }}
-            <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
-        {{ end }}
-    </div>
-    <div class="contents_text">{{ .Content }}</div>
+<div>
+    {{ partial "title_side_column.html" . }}
+    <div id="page_contents_body">
+        <div id="page_contents_date">{{ .Date.Format "2006.01.02" }}</div>
+        <div id="page_contents_title">{{ .Title }}</div>
+        <div >
+            {{ range .Params.tags }}
+                <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
+            {{ end }}
+        </div>
+        <div id="page_contents_text">{{ .Content }}</div>
 
-    <!-- utterances コメント欄の追加-->
-    <script src="https://utteranc.es/client.js"
-        repo="OrangeCocoa/OrangeCocoa.github.io"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-    </script>
-</div>{{ partial "footer.html" . }}   
+        <!-- utterances コメント欄の追加-->
+        <script src="https://utteranc.es/client.js"
+            repo="OrangeCocoa/OrangeCocoa.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+        </script>
+    </div>
+</div>
+{{ partial "footer.html" . }}   

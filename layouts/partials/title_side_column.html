@@ -1,0 +1,19 @@
+<div id="page_side_column_area">
+    <details>
+        <summary id="page_side_column_area_head">記事カテゴリ一覧</summary>
+        <!--全セクション(content内のフォルダごとのまとまりのこと)をループで回す-->
+        {{ range .Site.Sections }}
+        <details>
+            <!--セクション名を小文字で取得する(ビルド先のpublicフォルダには全て小文字で入れられる)-->
+            {{ $section_name := strings.ToLower .Title }}
+            <!--カテゴリ一覧にはルートindex.htmlからの絶対パスでリンク指定-->
+            <summary style="padding-left: 1rem"><a id="page_side_column_category" href="{{ path.Join $section_name "/index.html" | absURL }}">{{ .Title }}</a></summary>
+            {{ range where .Site.RegularPages "Section" $section_name }}
+                <!--ページが持つパスでリンク指定-->
+                <a href="{{ .RelPermalink }}" style="padding-left: 2rem">{{ .Title }}</a><br />
+            {{ end }}
+        </details>
+        <br />
+        {{ end }}
+    </details>
+</div>
