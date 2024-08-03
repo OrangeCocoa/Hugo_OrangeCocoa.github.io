@@ -2,16 +2,20 @@
 title: "Hugoでブログ作った"
 date: "2024-08-02"
 draft: false
-tags: ["技術", "HTML"] 
+categories: [ "技術" ]
+tags: [ "HTML" ] 
 ---
 
 ホームページを公開する方法なんて何も知らないし、WordPressもまともに使えず挫折したことがあるけども、ふと[Hugo](https://gohugo.io/)で作ってみようと思い至る。
 
 公開先をGitHub PagesにするかNetlifyにするかで迷いましたが、いろいろとめんどくさくないGitHubPagesに決定。  
-登録するサービスが少なく済むしね。
+登録するサービスが少なく済むしね。  
+ちなみに二つとも費用はかかりません。（無料じゃなかったらやってない）
 
 注意点ですが、[GitHub Pages](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages%E3%81%AE%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E5%88%B6%E9%99%90)はアフィリエイトやエロサイトなどの運用は恐らく認められていないので、やらないように。
 
+GitHubでソースコード公開してるので、気になったら参考にどうぞ。  
+https://github.com/OrangeCocoa/Hugo_OrangeCocoa.github.io
 
 **目次**
 - [Hugoのインストール](#install)
@@ -25,9 +29,11 @@ tags: ["技術", "HTML"]
 
 ## Hugoのインストール {#install}
 ---
-[ここ](https://gohugo.io/installation/)参考。  
+[ここからDL](https://gohugo.io/installation/)  
 Windowsなので  
+
 `winget install Hugo.Hugo.Extended`  
+{.deco_background_black}
 でインストール。
 
 環境変数に登録までされるので、これが一番楽。

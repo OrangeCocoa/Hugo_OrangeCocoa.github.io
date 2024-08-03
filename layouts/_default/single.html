@@ -5,7 +5,7 @@
     <div class="contents_title">{{ .Title }}</div>
     <div >
         {{ range .Params.tags }}
-            <a href="{{ $.Site.BaseURL }}blog/tags/{{ . | urlize}}">#{{ . }}</a>
+            <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
         {{ end }}
     </div>
     <div class="contents_text">{{ .Content }}</div>

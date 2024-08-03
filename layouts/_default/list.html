@@ -2,7 +2,7 @@
 <div class="top_contents">
     {{ partial "side_column.html" . }}
     <div>
-        <div class="infotablearea_head">タイトル</div>
+        <div class="infotablearea_head">記事一覧</div>
         {{ range (.Paginator 10).Pages }}
             <a>{{ .Date.Format "2006.01.02" }} </a>
             <a href="{{ .RelPermalink }}">{{ .Title }}</a><br />

@@ -258,3 +258,16 @@ TOPページ右カラム
 {
     text-indent: 1rem;
 }
+
+/*============================================
+フッター
+============================================*/
+#footer_rights
+{
+    text-align: center;
+    /*　範囲選択を禁止する*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
