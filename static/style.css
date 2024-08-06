@@ -4,11 +4,13 @@
 html
 {
     scroll-behavior: smooth;
+    height: 100%;
 }
 
 body
 {
     background-color : #f5f5f5;
+    min-height: 100%;
 }
 
 header
@@ -57,19 +59,26 @@ td
 #header_container
 {
     margin: 0 auto;
-    max-width: 1500px;
+    width: 100%;
+}
+
+#globalNaviBackground
+{
+    margin: auto;
+    padding: 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #1D0707;
+    background-position: left center;
+    line-height: 1.125rem;
 }
 
 ul#globalNavi
 {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    margin: 0px 0 0px 0;
+    display: table;
+    margin: auto;
     padding: 0;
     text-align: center;
-    line-height: 1.125rem;
-    background-color: #1D0707;
-    background-position: left center;
     list-style-type: none;
 }
 
@@ -77,12 +86,13 @@ ul#globalNavi li
 {
     margin: 0;
     padding: 0;
-    float: left;
+    display: table-cell;
     width: 160px;
 }
 
 ul#globalNavi li a
 {
+    border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     padding: 9px 20px;
     display: block;
@@ -116,15 +126,6 @@ ul#globalNavi li a#navi_privacy
 	font-size: 13px;
 	font-weight: bold;
 	padding: 9px 5px;
-}
-
-ul#globalNavi:after
-{
-    height: 0;
-    visibility: hidden;
-    content: ".";
-    display: block;
-    clear: both;
 }
 
 /*============================================
@@ -319,7 +320,58 @@ Markdownでも使うもの
     padding: 0.1em 0.2em 0.1em 0.2em;
 }
 
-.indent
+/* 左吹き出しツノ */
+.deco_bubble_left
 {
-    padding-left: 1rem;
+    font-size: 1em;
+    color: #fff;
+    background-color: #b2bcba;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    border-radius: 0.4em;
+    margin: auto 0.3em;
+    display: inline-block;
+    max-width: calc(100% - 100px);
+    vertical-align: top;
+}
+
+/* 左吹き出しツノ */
+.deco_bubble_left::before
+{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    transform: translateX(-100%) translateY(calc(1em - 80%));
+    width: 0;
+    content: "";
+    border-width: 0 0 0.6em 0.6em;
+    border-style: solid;
+    border-color: #b2bcba transparent;
+}
+
+/* 右吹き出し */
+.deco_bubble_right
+{
+    font-size: 1em;
+    color: #fff;
+    background-color: #b2bcba;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    border-radius: 0.4em;
+    margin: auto 0.3em;
+    display: inline-block;
+    max-width: calc(100% - 100px);
+    vertical-align: top;
+}
+
+/* 右吹き出しツノ */
+.deco_bubble_right::after
+{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    transform: translateY(calc(1em - 80%));
+    width: 0;
+    content: "";
+    border-width: 0 0.6em 0.6em 0;
+    border-style: solid;
+    border-color: #b2bcba transparent;
 }

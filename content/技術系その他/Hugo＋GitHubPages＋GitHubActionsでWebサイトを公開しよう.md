@@ -1,18 +1,19 @@
 ---
-title: "Hugoでブログ作った"
+title: "Hugo＋GitHubPages＋GitHubActionsでWebサイトを公開しよう"
 date: "2024-08-02"
 draft: false
 categories: [ "技術" ]
 tags: [ "HTML" ] 
 ---
 
-Webページを公開する方法なんて何も知らないし、WordPressもまともに使えず挫折したことがあるけども、ふと[Hugo](https://gohugo.io/)で作ってみようと思い至る。
+Webページ作成はHTMLべた書きでめんどくさくて時間もかかるし大して面白くない、レンダリングエンジン作る方が面白そう、とそんなイメージを持っていましたが、  
+HUGOとGitHubActionsを使って公開まで自動化ができるというのを見て興味が出る。  
+この記事は実際にデプロイして公開までやってみた備忘録になります。  
+現時点でWebの知識もお金も全くないです。
 
 公開先をGitHub PagesにするかNetlifyにするかで迷いましたが、いろいろとめんどくさくないGitHubPagesに決定。  
-登録するサービス少なく済むしね。  
-ちなみに二つとも費用はかかりません。（無料じゃなかったらやってない）
 
-注意点ですが、[GitHub Pages](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages%E3%81%AE%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E5%88%B6%E9%99%90)はアフィリエイトやエロサイトなどの運用は恐らく認められていないので、やらないように。
+注意点ですが、[GitHub Pages](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages%E3%81%AE%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E5%88%B6%E9%99%90)はアフィリエイトなどの運用は恐らく認められていません。
 
 GitHubでソースコード公開してるので、気になったら参考にどうぞ。  
 https://github.com/OrangeCocoa/Hugo_OrangeCocoa.github.io
@@ -21,8 +22,7 @@ https://github.com/OrangeCocoa/Hugo_OrangeCocoa.github.io
 
 HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://juggernautjp.info/templates/introduction/)
 
-作ってるときは英語ドキュメント見ながらだったけど、調べたら日本語ドキュメントがあったのでリンク全部差し替えた。
-（一部翻訳ページがないものもある）
+（リンクを英語ドキュメントから日本語ドキュメントに差し替えましたが、一部翻訳ページがないものもあります）
 
 
 **目次**
@@ -39,6 +39,7 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 - [Markdown内でmermaid記法を使う](#markdown-mermaid)
 - [Markdown内でCSS定義したスタイルを使う](#markdown-css)
 - [Markdown内でGoAT記法を使う](#markdown-goat)
+- [Google検索で表示させる](#google-search)
 
 
 ## Hugoのインストール {#hugo-install}
@@ -76,7 +77,7 @@ hugo server
 `hugo new site` でいくつかフォルダが作られるが、よく使うのは**content**, **layouts**, **static**の三つ。  
 また**hugo.toml**はプロジェクトの設定ファイルになるので、これもよく編集する。  
 
-フォルダ構成はこんな感じ
+フォルダ構成はこんな感じ。
 <div style="width: 300px">
 
 ```goat
@@ -284,7 +285,7 @@ GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジ
 アカ名は**OrangeCocoa**なので、ブランチ名は**OrangeCocoa.github.io**。  
 WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 
-諸兄ならばリポジトリの作り方くらい知っていようが、一応手順を記載する。
+エンジニアならリポジトリの作り方くらい知ってると思うが、一応手順を記載。
 
 1. WebのGitHubで空のHugoデプロイ先と、Hugoプロジェクトのリモートリポジトリを作成。
 
@@ -612,3 +613,26 @@ sequenceDiagram
 </div>
 
 ちなみにこれをHTMLにレンダリングしたものをみると、とんでもねーコードができあがっている。
+
+
+## Google検索で表示させる {#google-search}
+---
+https://qiita.com/r_saiki/items/9ab3be34fa255724c9dd
+
+サイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
+
+まずはGoogle Search Consoleの登録。
+
+
+
+次にサイトマップの作成。
+下記を記述した**_config.yml**ファイルをプロジェクト直下に作成してGitHubにプッシュ。
+
+``` _config.yml
+plugins:
+  - jekyll-sitemap
+```
+
+**https://[ユーザー名].github.io/[リポジトリ名]/sitemap.xml**のURLでサイトマップが作成されるので、
+
+
