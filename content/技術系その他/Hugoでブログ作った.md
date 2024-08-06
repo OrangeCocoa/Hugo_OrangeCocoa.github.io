@@ -6,10 +6,10 @@ categories: [ "技術" ]
 tags: [ "HTML" ] 
 ---
 
-ホームページを公開する方法なんて何も知らないし、WordPressもまともに使えず挫折したことがあるけども、ふと[Hugo](https://gohugo.io/)で作ってみようと思い至る。
+Webページを公開する方法なんて何も知らないし、WordPressもまともに使えず挫折したことがあるけども、ふと[Hugo](https://gohugo.io/)で作ってみようと思い至る。
 
 公開先をGitHub PagesにするかNetlifyにするかで迷いましたが、いろいろとめんどくさくないGitHubPagesに決定。  
-登録するサービスが少なく済むしね。  
+登録するサービス少なく済むしね。  
 ちなみに二つとも費用はかかりません。（無料じゃなかったらやってない）
 
 注意点ですが、[GitHub Pages](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages%E3%81%AE%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E5%88%B6%E9%99%90)はアフィリエイトやエロサイトなどの運用は恐らく認められていないので、やらないように。
@@ -17,19 +17,33 @@ tags: [ "HTML" ]
 GitHubでソースコード公開してるので、気になったら参考にどうぞ。  
 https://github.com/OrangeCocoa/Hugo_OrangeCocoa.github.io
 
+クイックスタートガイドは[ここ](https://juggernautjp.info/getting-started/quick-start/)
+
+HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://juggernautjp.info/templates/introduction/)
+
+作ってるときは英語ドキュメント見ながらだったけど、調べたら日本語ドキュメントがあったのでリンク全部差し替えた。
+（一部翻訳ページがないものもある）
+
+
 **目次**
-- [Hugoのインストール](#install)
-- [Hugoのセットアップ](#setup)
-- [GitHub リポジトリの作成と、GitHub Actionsへのフック](#GitHub)
-- [デプロイエラー解決](#error)
-- [コメント欄の追加](#comment)
-- [リンクを別タブで開く](#link)
-- [mermaid記法を使う](#mermaid)
+- [Hugoのインストール](#hugo-install)
+- [Hugoのセットアップ](#hugo-setup)
+- [個別ページと一覧ページの作成](#create-page)
+- [TOPページの作成](#create-top)
+- [GitHub リポジトリの作成と、GitHub Actionsへのフック](#hook-github)
+- [デプロイエラー解決](#deploy-error)
+- [画像の挿入](#insert-image)
+- [コメント欄の追加](#add-comment)
+- [Markdownの変換挙動をカスタマイズする](custom-markdown)
+- [リンクを別タブで開く](#markdown-link)
+- [Markdown内でmermaid記法を使う](#markdown-mermaid)
+- [Markdown内でCSS定義したスタイルを使う](#markdown-css)
+- [Markdown内でGoAT記法を使う](#markdown-goat)
 
 
-## Hugoのインストール {#install}
+## Hugoのインストール {#hugo-install}
 ---
-[ここからDL](https://gohugo.io/installation/)  
+[ここからDL](https://juggernautjp.info/installation/)  
 Windowsなので  
 
 `winget install Hugo.Hugo.Extended`  
@@ -38,27 +52,232 @@ Windowsなので
 
 環境変数に登録までされるので、これが一番楽。
 
-## Hugoのセットアップ {#setup}
+
+## Hugoのセットアップ {#hugo-setup}
 ---
 
 コマンドプロンプトを開き、  
 
-`hugo new site [Hugoプロジェクト名]`  
-{.deco_background_black}
-を実行すると、Hugoのプロジェクトが新規作成される。
+```
+# カレントディレクトリにHugoのプロジェクトが新規作成される
+hugo new site [Hugoプロジェクト名]
 
-いくつかフォルダが作られるが、よく使うのは**content**, **layouts**, **static**の三つ。  
+cd [Hugoプロジェクト名]
+
+# HTMLのビルド
+hugo
+
+# ローカルサーバー起動
+hugo server
+
+```
+{.deco_background_black}
+
+`hugo new site` でいくつかフォルダが作られるが、よく使うのは**content**, **layouts**, **static**の三つ。  
 また**hugo.toml**はプロジェクトの設定ファイルになるので、これもよく編集する。  
 
-`hugo`  
-{.deco_background_black}
-コマンドを実行すると、**public**フォルダにビルドされる。  
+フォルダ構成はこんな感じ
+<div style="width: 300px">
+
+```goat
+project
+   |
+   +---- archetypes
+   +---- assets
+   +---- content
+   +---- data
+   +---- layouts
+   +---- static
+   +---- themes
+   .---- hugo.toml
+```
+
+</div>
+
+- [archetypes](https://juggernautjp.info/content-management/archetypes/)・・・Markdown記事のテンプレート保存先
+- [assets](https://juggernautjp.info/content-management/image-processing/#global-resources)    ・・・グローバルリソース
+- [content](https://juggernautjp.info/content-management/page-bundles/)   ・・・Markdownで書いた記事の保存先、HTMLからアクセスする場合に画像や動画
+- [data](https://gohugo.io/content-management/data-sources/)      ・・・データファイルの保存先、CSVやJSONなど
+- layouts   ・・・HTMLファイルや分割ファイルの保存先
+- [static](https://juggernautjp.info/content-management/static-files/)    ・・・CSSや画像ファイルの保存先、Markdownからアクセスする静的リソースはここに入れる
+- [themes](https://juggernautjp.info/hugo-modules/theme-components/)    ・・・Hugoのテーマの保存先
+- [hugo.toml](https://juggernautjp.info/getting-started/configuration/) ・・・Webサイトの設定ファイル、バージョンによって名前がconfig.tomlだったりする
+
+プロジェクトのディレクトリで `hugo` コマンドを実行すると、リリース用のURLを設定したHTML群が**public**フォルダにビルドされる。  
 今回はGitHub Actionsにビルドを任せるので使わなくてもOK。
 
+`hugo server` コマンドを実行すると、URL接続先をローカルサーバ用にしたHTML群が**public**フォルダにビルドされ、1313番ポートが開放される。  
+この状態で**http://localhost:1313/**にアクセスすると、レイアウトなどの確認が可能になる。  
+また、ローカルサーバーモード起動中はホットリロードが有効なので、MarkdownやHTMLを編集すると、保存した段階でビルドが走り即座に反映が可能。  
+HTMLを編集したときに限り稀にビルドされないため（キャッシュあるからいいや的な何かが働いてる？）、なんか思ってたのと違う場合はCtrl＋Cで一度サーバーを落として再度ビルドをかけてみるといいかも。
+
+
+### ・hugo.toml
+作成された**hugo.toml**ファイルにWebページの情報を記載する。
+``` hugo.toml
+baseURL = 'https://OrangeCocoa.github.io'
+languageCode = 'ja-jp'
+title = 'ぶろぐ'
+```
+
+その他の設定項目については[こちら](https://juggernautjp.info/getting-started/configuration/)、マークアップについては[こちら](https://juggernautjp.info/getting-started/configuration-markup/)を参照。
+
+
+### ・header.html, footer.html, style.css
+分割定義するため、ヘッダとフッタ用のHTMLファイルを作成する。
+
+**layouts/partials**というフォルダを作成し、**header.html**と**footer.html**を作成する。
+
+``` header.html
+<!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="stylesheet" href="{{ .Site.BaseURL }}/style.css">
+        <title>ぶろぐ（仮）</title>
+    </head>
+    <body>
+        <div>
+            <header>
+                <div>ぶろぐ（仮）</a></div>
+            </header>
+        </div>
+```
+
+``` footer.html
+        <footer>
+            <div id="footer_rights">© 2024 ぶろぐ（仮） All rights reserved.</div>
+        </footer>
+    </body>
+</html>
+```
+
+**.Site.BaseURL**と書いている箇所があるが、  
+html内のグローバルスコープは[Page](https://juggernautjp.info/variables/page/)なので、  
+`{{  }}` で囲い、ドット演算子を用いることで**Page**内の関数呼び出しや変数の参照が可能である。  
+この場合は**hugo.toml**で指定した**baseURL**を呼び出している。
+
+
+続いて、**static**フォルダ内に**style.css**を作成する。
+
+``` style.css
+html
+{
+    scroll-behavior: smooth;
+}
+
+body
+{
+    background-color : #f5f5f5;
+}
+
+header
+{
+    padding-top : 1%;
+    padding-bottom : 1%;
+}
+
+div
+{
+    display: block;
+    unicode-bidi: isolate;
+    padding-top : 5px;
+    padding-bottom : 5px;
+}
+
+#footer_rights
+{
+    text-align: center;
+
+    /*　範囲選択を禁止する*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+```
+
+CSSに関してはHugo固有の挙動などはないので、適宜必要になった時に調べて追記していく。
+
+範囲選択禁止部分のベンダープレフィックスについては[こちら](https://developer.mozilla.org/ja/docs/Glossary/Vendor_Prefix)  
+（ブラウザに使われているレンダリングエンジンによって挙動が異なるので、全部指定してるって認識でOK）
+
+
+## 個別ページと一覧ページの作成 {#create-page}
+---
+
+``` single.html
+
+```
+
+``` list.html
+
+```
+
+``` 記事.md
+
+```
+
+ページのメタデータで[フロントマター](https://juggernautjp.info/content-management/front-matter/)と呼ばれる。
+いろいろ設定できるほか、ユーザー定義もできるため、ページの細かいカテゴリ分けや属性として利用できる。
+
+文字列や数値、bool値、日付といったものはそのまま任意の変数を追加するだけで利用でき、HTMLから **.Param.[名前]**で取得できる。
+くわしくは[こちら](https://juggernautjp.info/function/param/)
+
+文字列配列を設定する場合は[タクソノミー](https://juggernautjp.info/content-management/taxonomies/)設定をする。
+タクソノミーで追加された値は、public/tags/~のように一覧化され、
+html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字列がすべて取得できる。
 
 
 
-## GitHub リポジトリの作成と、GitHub Actionsへのフック {#GitHub}
+
+
+
+## TOPページの作成 {#create-top}
+---
+### index.html
+
+``` index.html
+{{ partial "header.html" . }}
+<div id="top_right">
+    <div>新着記事</div>
+    <div>
+        <!--全記事をループで回す-->
+        {{ range .Site.RegularPages }}
+        <a>{{ .Date.Format "2006.01.02" }} </a>
+        <div>
+            <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
+            <br />
+            <!--タグを全て表示する-->
+            {{ range .Params.tags }}
+            <a href="{{ $.Site.BaseURL }}tags/{{ . | urlize}}" style="font-size:12px;">#{{ . }}</a>
+            {{ end }}
+        </div>
+        <br />
+        {{ end }}
+    </div>
+</div>
+{{ partial "footer.html" . }}
+```
+
+見ればわかるが、  
+`{{ partial "header.html" . }}`  
+で分割HTMLの呼び出しを行なっている。  
+（phpであれば`<?php include "header.html" ?>`と記述するところ）
+
+**.Site.RegularPages**で個別ページのみをフォルダ関係なく全て取得できるので、それを**range**でループ処理することで新着一覧を作っている。  
+（**.Site.Pages**では一覧ページも取得してしまう）
+
+**.Date.Format**
+
+
+
+
+
+
+
+## GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
 ---
 GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作る。  
 このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないといけないそう。（ほんとか？）  
@@ -78,7 +297,7 @@ WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 {.deco_background_black}
 
 
-それが済んだらデプロイアクセス用のSSH鍵を登録していく。
+それが済んだらデプロイのためのSSH鍵を登録していく。
 
 コマンドで
 
@@ -86,9 +305,7 @@ WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 {.deco_background_black}
 など実行して適当に公開鍵と秘密鍵を作る。
 
-
-{{< figure src="/images/sshkey.png" width=1200 >}}
-
+![sshkey](/images/sshkey.png)
 
 次に公開鍵（.pubとついてる方）をHugoのデプロイ先リポジトリに登録。  
 メモ帳などのテキストエディタで開いてコピペ。
@@ -97,16 +314,12 @@ WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 書き込み権限がなくてデプロイに失敗する。
 {.deco_background_red}
 
-
-{{< figure src="/images/deploykey.png" width=1200 >}}
-
+![deploykey](/images/deploykey.png)
 
 続いてHugoプロジェクトのリポジトリに秘密鍵を登録。  
 ここで書いたTitleが実行ファイルのシークレット指定に必要になってくるのでコピペ。
 
-
-{{< figure src="/images/secretkey.png" width=1200 >}}
-
+![secretkey](/images/secretkey.png)
 
 その後、プロジェクト直下から `.github/workflows/gh-pages.yml` ファイルを作成して以下の実行処理を記載。
 
@@ -153,9 +366,8 @@ jobs:
 {{< figure src="/images/completejob.png" width=1200 >}}
 
 
-### デプロイエラー解決 {#error}
----
-**「Waiting for a runner to pick up this job...」** 
+### デプロイエラー解決 {#deploy-error}
+**「Waiting for a runner to pick up this job...」**
 {.deco_background_red} 
 Actions上で上記のように表示されてジョブがスタートしない場合、OS指定がミスってるのでubuntu-latestを指定。
 
@@ -183,7 +395,21 @@ Actions上で上記のように表示されてジョブがスタートしない�
 を削って登録した疑惑。全部コピペして。
 
 
-## コメント欄の追加 {#comment}
+## 画像の挿入 {#insert-image}
+---
+普通にWebに上がってる画像をURL指定で参照してもいいが、手持ちの画像を表示させたいときは**static**フォルダに画像を入れる。  
+**images**フォルダを作り、必要な画像を入れていく。
+
+HugoのMarkdownでは  
+`![name](/images/~~~.png)`  
+と記述する。
+
+また、元サイズから変更したい場合は
+`\{\{< figure src="/images/~~~.png" width=1200 >\}\}`
+のように記述すると、figureタグに変換してくれる。
+
+
+## コメント欄の追加 {#add-comment}
 ---
 [Disqus](https://disqus.com/)と[utterances](https://utteranc.es/)がある。  
 utterancesが楽そうなのでこっちにした。  
@@ -209,11 +435,15 @@ utterancesが楽そうなのでこっちにした。
 Disqusも導入してみたところ、コンソール画面でコメントの集計や削除ができるといった感じで、
 しっかり運営するならDisqusの方がよさそうだけど、GitHubで完結する楽さには抗えなかった。
 
-
-## リンクを別タブで開く {#link}
+## Markdownの変換挙動をカスタマイズする {custom-markdown}
 ---
+**layouts/_default/_markup**フォルダ内に**render-{kind}.html**のファイルを作成することで、レンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）の挙動を変えることができる。  
+詳しくは[ここ](https://juggernautjp.info/templates/render-hooks/)
 
-どうやらレンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）処理をオーバーライドする必要がある模様。  
+
+## リンクを別タブで開く {#markdown-link}
+---
+別タブでリンクを開くためには、どうやらレンダリング処理をオーバーライドする必要がある模様。  
 ~（よく使うんだから最初から使えるようにしとけ）~
 
 `layouts/_default/_markup/render-link.html`    
@@ -226,8 +456,34 @@ Disqusも導入してみたところ、コンソール画面でコメントの�
 ```
 
 
-## mermaid記法を使う {#mermaid}
+## Markdown内でCSS定義したスタイルを使う {#markdown-css}
 ---
+**hugo.toml**内に下記を追記する。
+
+``` hugo.toml
+[markup.goldmark.parser.attribute]
+block = true
+```
+
+さらに**style.css**内で適用したいスタイルを定義する。
+``` style.css
+.deco_background_red
+{
+    color: #fff; /* 白文字 */
+    background-color: #ee6666; /* 赤背景 */
+    padding: 0.1em 0.2em 0.1em 0.2em;
+}
+```
+これでスタイル指定したい箇所の下に`{.deco_background_red} `と書けば、CSSに定義されたスタイルを適用することができる。
+
+**Goldmark**については[こちら](https://juggernautjp.info/getting-started/configuration-markup/#goldmark)、そして[リポジトリ](https://github.com/yuin/goldmark/)  
+GoldmarkはMarkdownをレンダリングする際に使われるパーサーで、以前は[blackfriday]()が使われていた。  
+blackfridayを使った説明記事を見かけたら回れ右推奨。
+
+
+## Markdown内でmermaid記法を使う {#markdown-mermaid}
+---
+[ここ](https://juggernautjp.info/content-management/diagrams/#mermaid-diagrams)参照。
 `layouts/_default/_markup/render-codeblock-mermaid.html`  
 を新規作成し、下記コードを記載。
 
@@ -238,9 +494,8 @@ Disqusも導入してみたところ、コンソール画面でコメントの�
 {{ .Page.Store.Set "hasMermaid" true }}
 ```
 
-
 既存ファイルの末尾あたりに下記コードを挿入。  
-footerに入れた。
+footer.htmlに入れた。
 
 ``` footer.html
 {{ if .Store.Get "hasMermaid" }}
@@ -251,10 +506,10 @@ footerに入れた。
 {{ end }}
 ```
 
-
 これだけでMarkdown挿入が可能になる。
 
-``` markdown.md
+```` markdown.md
+``` mermaid
 sequenceDiagram
     participant Alice
     participant Bob
@@ -267,7 +522,7 @@ sequenceDiagram
     John->>Bob: How about you?
     Bob-->>John: Jolly good!
 ```
-
+````
 
 ``` mermaid
 sequenceDiagram
@@ -282,3 +537,78 @@ sequenceDiagram
     John->>Bob: How about you?
     Bob-->>John: Jolly good!
 ```
+
+
+## Markdown内でGoAT記法を使う {#markdown-goat}
+---
+デフォルトでサポートされているので、特に設定しなくても使える。
+詳しくは[ここ](https://juggernautjp.info/content-management/diagrams/)
+
+そのまま書くと現在のdivサイズに合わせてドデカく表示されるので、
+記事内でサイズコントロールしたい場合は[Markdown内でCSS定義したスタイルを使う](#markdown-css)と合わせてスタイル指定してあげるとよい。
+
+```` test.md
+<div style="width: 800px">
+
+```goat
++-------------------+                           ^                      .---.
+|    A Box          |__.--.__    __.-->         |      .-.             |   |
+|                   |        '--'               v     | * |<---        |   |
++-------------------+                                  '-'             |   |
+                       Round                                       *---(-. |
+  .-----------------.  .-------.    .----------.         .-------.     | | |
+ |   Mixed Rounded  | |         |  / Diagonals  \        |   |   |     | | |
+ | & Square Corners |  '--. .--'  /              \       |---+---|     '-)-'       .--------.
+ '--+------------+-'  .--. |     '-------+--------'      |   |   |       |        / Search /
+    |            |   |    | '---.        |               '-------'       |       '-+------'
+    |<---------->|   |    |      |       v                Interior                 |     ^
+    '           <---'      '----'   .-----------.              ---.     .---       v     |
+ .------------------.  Diag line    | .-------. +---.              \   /           .     |
+ |   if (a > b)     +---.      .--->| |       | |    | Curved line  \ /           / \    |
+ |   obj->fcn()     |    \    /     | '-------' |<--'                +           /   \   |
+ '------------------'     '--'      '--+--------'      .--. .--.     |  .-.     +Done?+-'
+    .---+-----.                        |   ^           |\ | | /|  .--+ |   |     \   /
+    |   |     | Join        \|/        |   | Curved    | \| |/ | |    \    |      \ /
+    |   |     +---->  o    --o--        '-'  Vertical  '--' '--'  '--  '--'        +  .---.
+ <--+---+-----'       |     /|\                                                    |  | 3 |
+                      v                             not:line    'quotes'        .-'   '---'
+  .-.             .---+--------.            /            A || B   *bold*       |        ^
+ |   |           |   Not a dot  |      <---+---<--    A dash--is not a line    v        |
+  '-'             '---------+--'          /           Nor/is this.            ---
+```
+
+</div>
+````
+
+<div style="width: 800px">
+
+```goat
++-------------------+                           ^                      .---.
+|    A Box          |__.--.__    __.-->         |      .-.             |   |
+|                   |        '--'               v     | * |<---        |   |
++-------------------+                                  '-'             |   |
+                       Round                                       *---(-. |
+  .-----------------.  .-------.    .----------.         .-------.     | | |
+ |   Mixed Rounded  | |         |  / Diagonals  \        |   |   |     | | |
+ | & Square Corners |  '--. .--'  /              \       |---+---|     '-)-'       .--------.
+ '--+------------+-'  .--. |     '-------+--------'      |   |   |       |        / Search /
+    |            |   |    | '---.        |               '-------'       |       '-+------'
+    |<---------->|   |    |      |       v                Interior                 |     ^
+    '           <---'      '----'   .-----------.              ---.     .---       v     |
+ .------------------.  Diag line    | .-------. +---.              \   /           .     |
+ |   if (a > b)     +---.      .--->| |       | |    | Curved line  \ /           / \    |
+ |   obj->fcn()     |    \    /     | '-------' |<--'                +           /   \   |
+ '------------------'     '--'      '--+--------'      .--. .--.     |  .-.     +Done?+-'
+    .---+-----.                        |   ^           |\ | | /|  .--+ |   |     \   /
+    |   |     | Join        \|/        |   | Curved    | \| |/ | |    \    |      \ /
+    |   |     +---->  o    --o--        '-'  Vertical  '--' '--'  '--  '--'        +  .---.
+ <--+---+-----'       |     /|\                                                    |  | 3 |
+                      v                             not:line    'quotes'        .-'   '---'
+  .-.             .---+--------.            /            A || B   *bold*       |        ^
+ |   |           |   Not a dot  |      <---+---<--    A dash--is not a line    v        |
+  '-'             '---------+--'          /           Nor/is this.            ---
+```
+
+</div>
+
+ちなみにこれをHTMLにレンダリングしたものをみると、とんでもねーコードができあがっている。

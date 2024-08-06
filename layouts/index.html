@@ -1,26 +1,26 @@
 {{ partial "header.html" . }}
-<div id="trophy_card">
-    <a href="https://psnprofiles.com/orange_cocoa_" target="_blank"><img src="https://card.psnprofiles.com/2/orange_cocoa_.png" width=500 height="165" border="0"></a>
-</div>
-<div id="top_contents">
-    {{ partial "top_side_column.html" . }}
-    <div id="top_right">
-        <div id="top_right_head">新着記事</div>
-        <div id="infotable">
-            <!--全記事をループで回す-->
-            {{ range .Site.RegularPages }}
-                <a>{{ .Date.Format "2006.01.02" }} </a>
-                <div>
-                    <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
-                    <br />
-                    <!--タグを全て表示する-->
-                    {{ range .Params.tags }}
+        <div id="trophy_card">
+            <a href="https://psnprofiles.com/orange_cocoa_" target="_blank"><img src="https://card.psnprofiles.com/2/orange_cocoa_.png" width=500 height="165" border="0"></a>
+        </div>
+        <div id="top_contents">
+            {{ partial "top_side_column.html" . }}
+            <div id="top_right">
+                <div id="top_right_head">新着記事</div>
+                <div id="infotable">
+                    <!--全記事をループで回す-->
+                    {{ range .Site.RegularPages }}
+                    <a>{{ .Date.Format "2006.01.02" }} </a>
+                    <div>
+                        <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
+                        <br />
+                        <!--タグを全て表示する-->
+                        {{ range .Params.tags }}
                         <a href="{{ $.Site.BaseURL }}tags/{{ . | urlize}}" style="font-size:12px;">#{{ . }}</a>
+                        {{ end }}
+                    </div>
+                    <br />
                     {{ end }}
                 </div>
-                <br />
-            {{ end }}
+            </div>
         </div>
-    </div>
-</div>
 {{ partial "footer.html" . }}
