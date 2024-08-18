@@ -75,7 +75,7 @@ hugo server
 {.deco_background_black}
 
 `hugo new site` でいくつかフォルダが作られるが、よく使うのは**content**, **layouts**, **static**の三つ。  
-また**hugo.toml**はプロジェクトの設定ファイルになるので、これもよく編集する。  
+また**hugo.toml**はプロジェクトの設定ファイルになるので、これもよく編集します。  
 
 フォルダ構成はこんな感じ。
 <div style="width: 300px">
@@ -104,17 +104,17 @@ project
 - [themes](https://juggernautjp.info/hugo-modules/theme-components/)    ・・・Hugoのテーマの保存先
 - [hugo.toml](https://juggernautjp.info/getting-started/configuration/) ・・・Webサイトの設定ファイル、バージョンによって名前がconfig.tomlだったりする
 
-プロジェクトのディレクトリで `hugo` コマンドを実行すると、リリース用のURLを設定したHTML群が**public**フォルダにビルドされる。  
+プロジェクトのディレクトリで `hugo` コマンドを実行すると、リリース用のURLを設定したHTML群が**public**フォルダにビルドされます。  
 今回はGitHub Actionsにビルドを任せるので使わなくてもOK。
 
-`hugo server` コマンドを実行すると、URL接続先をローカルサーバ用にしたHTML群が**public**フォルダにビルドされ、1313番ポートが開放される。  
-この状態で**http://localhost:1313/**にアクセスすると、レイアウトなどの確認が可能になる。  
+`hugo server` コマンドを実行すると、URL接続先をローカルサーバ用にしたHTML群が**public**フォルダにビルドされ、1313番ポートが開放されます。  
+この状態で**http://localhost:1313/**にアクセスすると、レイアウトなどの確認が可能になります。  
 また、ローカルサーバーモード起動中はホットリロードが有効なので、MarkdownやHTMLを編集すると、保存した段階でビルドが走り即座に反映が可能。  
 HTMLを編集したときに限り稀にビルドされないため（キャッシュあるからいいや的な何かが働いてる？）、なんか思ってたのと違う場合はCtrl＋Cで一度サーバーを落として再度ビルドをかけてみるといいかも。
 
 
 ### ・hugo.toml
-作成された**hugo.toml**ファイルにWebページの情報を記載する。
+作成された**hugo.toml**ファイルにWebページの情報を記載します。
 ``` hugo.toml
 baseURL = 'https://OrangeCocoa.github.io'
 languageCode = 'ja-jp'
@@ -125,9 +125,9 @@ title = 'ぶろぐ'
 
 
 ### ・header.html, footer.html, style.css
-分割定義するため、ヘッダとフッタ用のHTMLファイルを作成する。
+分割定義するため、ヘッダとフッタ用のHTMLファイルを作成します。
 
-**layouts/partials**というフォルダを作成し、**header.html**と**footer.html**を作成する。
+**layouts/partials**というフォルダを作成し、**header.html**と**footer.html**を作成。
 
 ``` header.html
 <!DOCTYPE html>
@@ -136,31 +136,31 @@ title = 'ぶろぐ'
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no">
         <link rel="stylesheet" href="{{ .Site.BaseURL }}/style.css">
-        <title>ぶろぐ（仮）</title>
+        <title>（仮）</title>
     </head>
     <body>
         <div>
             <header>
-                <div>ぶろぐ（仮）</a></div>
+                <div>（仮）</a></div>
             </header>
         </div>
 ```
 
 ``` footer.html
         <footer>
-            <div id="footer_rights">© 2024 ぶろぐ（仮） All rights reserved.</div>
+            <div id="footer_rights">© 2024 （仮） All rights reserved.</div>
         </footer>
     </body>
 </html>
 ```
 
-**.Site.BaseURL**と書いている箇所があるが、  
+**.Site.BaseURL**と書いている箇所がありますが、  
 html内のグローバルスコープは[Page](https://juggernautjp.info/variables/page/)なので、  
-`{{  }}` で囲い、ドット演算子を用いることで**Page**内の関数呼び出しや変数の参照が可能である。  
-この場合は**hugo.toml**で指定した**baseURL**を呼び出している。
+`{{  }}` で囲い、ドット演算子を用いることで**Page**内の関数呼び出しや変数の参照が可能。  
+この場合は**hugo.toml**で指定した**baseURL**を呼び出しています。
 
 
-続いて、**static**フォルダ内に**style.css**を作成する。
+続いて、**static**フォルダ内に**style.css**を作成。
 
 ``` style.css
 html
@@ -199,7 +199,7 @@ div
 }
 ```
 
-CSSに関してはHugo固有の挙動などはないので、適宜必要になった時に調べて追記していく。
+CSSに関してはHugo固有の挙動などはないので、適宜必要になった時に調べて追記していきます。
 
 範囲選択禁止部分のベンダープレフィックスについては[こちら](https://developer.mozilla.org/ja/docs/Glossary/Vendor_Prefix)  
 （ブラウザに使われているレンダリングエンジンによって挙動が異なるので、全部指定してるって認識でOK）
@@ -208,37 +208,69 @@ CSSに関してはHugo固有の挙動などはないので、適宜必要にな�
 ## 個別ページと一覧ページの作成 {#create-page}
 ---
 
+### single.html
 ``` single.html
-
+{{ partial "header.html" . }}
+        <div>
+            <div>{{ .Date.Format "2006.01.02" }}</div>
+            <div>{{ .Title }}</div>
+            <div >
+                {{ range .Params.tags }}
+                <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
+                {{ end }}
+            </div>
+            <div>{{ .Content }}</div>
+        </div>
+{{ partial "footer.html" . }}   
 ```
+contentフォルダ下に新しくフォルダを作ってページ作成すると、個別ページ用のindexページが作成されます。  
+single.htmlは、その個別ページのテンプレートとなります。
+個別ページが作成される際に、single.htmlのレイアウトにしたがって画面が構成されます。
 
+### list.html
 ``` list.html
-
+{{ partial "header.html" . }}
+        <div>
+            <div>記事一覧</div>
+            {{ range (.Paginator 10).Pages }}
+            <a>{{ .Date.Format "2006.01.02" }} </a>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a><br />
+            {{ end }}
+        </div>
+{{ partial "footer.html" . }}
 ```
+contentフォルダ下に新しくフォルダを作ってページ作成すると、個別ページのまとまりを管理するindexページが作成されます。  
+list.htmlは、そのページのテンプレートになります。
 
+### 記事.md
 ``` 記事.md
+---
+title: "タイトル"
+date: "2024-08-02"
+draft: false
+categories: [ "" ]
+tags: [ "" ] 
+---
 
+## 見出し
+本文
 ```
+個別ページをMarkdownで記述したものになり、single.htmlのテンプレートに従いHTMLファイルに変換されます。
 
-ページのメタデータで[フロントマター](https://juggernautjp.info/content-management/front-matter/)と呼ばれる。
-いろいろ設定できるほか、ユーザー定義もできるため、ページの細かいカテゴリ分けや属性として利用できる。
+---で囲まれている部分は、ページのメタデータで[フロントマター](https://juggernautjp.info/content-management/front-matter/)と呼ばれます。
+いろいろ設定できるほか、ユーザー定義もできるため、ページの細かいカテゴリ分けや属性として利用できます。
 
-文字列や数値、bool値、日付といったものはそのまま任意の変数を追加するだけで利用でき、HTMLから **.Param.[名前]**で取得できる。
+文字列や数値、bool値、日付といったものはそのまま任意の変数を追加するだけで利用でき、HTMLから **.Param.[名前]**で取得できます。
 くわしくは[こちら](https://juggernautjp.info/function/param/)
 
-文字列配列を設定する場合は[タクソノミー](https://juggernautjp.info/content-management/taxonomies/)設定をする。
+文字列配列を設定する場合は[タクソノミー](https://juggernautjp.info/content-management/taxonomies/)設定を行ないます。
 タクソノミーで追加された値は、public/tags/~のように一覧化され、
-html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字列がすべて取得できる。
-
-
-
-
+html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字列がすべて取得できます。
 
 
 ## TOPページの作成 {#create-top}
 ---
 ### index.html
-
 ``` index.html
 {{ partial "header.html" . }}
 <div id="top_right">
@@ -261,13 +293,12 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 </div>
 {{ partial "footer.html" . }}
 ```
-
-見ればわかるが、  
+ 
 `{{ partial "header.html" . }}`  
-で分割HTMLの呼び出しを行なっている。  
+で分割HTMLの呼び出しを行なっています。  
 （phpであれば`<?php include "header.html" ?>`と記述するところ）
 
-**.Site.RegularPages**で個別ページのみをフォルダ関係なく全て取得できるので、それを**range**でループ処理することで新着一覧を作っている。  
+**.Site.RegularPages**で個別ページのみをフォルダ関係なく全て取得できるので、それを**range**でループ処理することで新着一覧を作っています。  
 （**.Site.Pages**では一覧ページも取得してしまう）
 
 **.Date.Format**
@@ -280,31 +311,31 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 
 ## GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
 ---
-GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作る。  
-このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないといけないそう。（ほんとか？）  
+GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作ります。  
+このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないと、URLが**[アカウント名].github.io/[ブランチ名]**の構成になるらしい。
 アカ名は**OrangeCocoa**なので、ブランチ名は**OrangeCocoa.github.io**。  
-WebページのURLは**https://OrangeCocoa.github.io**になる想定。
+これでURLは**https://OrangeCocoa.github.io**になる想定。  
+気に入らなければサイト名のGitHubアカウントを新規に取得してしまってもいい。
 
-エンジニアならリポジトリの作り方くらい知ってると思うが、一応手順を記載。
+エンジニアならリポジトリの作り方くらい知ってると思いますが、一応手順を記載します。
 
 1. WebのGitHubで空のHugoデプロイ先と、Hugoプロジェクトのリモートリポジトリを作成。
 
 2. [Fork](https://git-fork.com/)を使ってる場合、File > Init New RepositoryでHugoプロジェクトのフォルダを選択してローカルリポジトリを作成。（Hugoデプロイ先はいらない）
 
 3. Hugoプロジェクトのローカルリポジトリタブを選択している状態で、右上にあるConsoleボタンを押してコマンドプロンプトを開き、下記コマンドを実行。  
-その後プッシュすればリモートブランチ作成コミットとなる。
+その後プッシュすればリモートブランチ作成コミットとなります。
 
 `git remote add origin https://github.com/[アカウント名]/[リポジトリ名]`
 {.deco_background_black}
 
+それが済んだらデプロイのためのSSH鍵を登録していきます。
 
-それが済んだらデプロイのためのSSH鍵を登録していく。
-
-コマンドで
+コマンドプロンプトなどで
 
 `ssh-keygen -t ed25519 -f blog_ssh`  
 {.deco_background_black}
-など実行して適当に公開鍵と秘密鍵を作る。
+を実行して適当に公開鍵と秘密鍵を作成。
 
 ![sshkey](/images/sshkey.png)
 
@@ -312,7 +343,7 @@ WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 メモ帳などのテキストエディタで開いてコピペ。
 
 このとき、Allow write accessにチェックを入れるのを忘れずに。  
-書き込み権限がなくてデプロイに失敗する。
+書き込み権限がなくてデプロイに失敗します。
 {.deco_background_red}
 
 ![deploykey](/images/deploykey.png)
@@ -323,7 +354,6 @@ WebページのURLは**https://OrangeCocoa.github.io**になる想定。
 ![secretkey](/images/secretkey.png)
 
 その後、プロジェクト直下から `.github/workflows/gh-pages.yml` ファイルを作成して以下の実行処理を記載。
-
 
 ``` gh-pages.yml
 name: github pages
@@ -359,10 +389,10 @@ jobs:
 ```
 
 
-上記が終わったらHugoプロジェクトをコミットする。
+上記が終わったらHugoプロジェクトをコミット。
 
-添付画像のとおりビルドが通れば成功。  
-ちなみに自分は何度か失敗した。（[デプロイエラー解決](#error)に続く）
+添付画像のとおりビルドが通れば成功です。  
+ちなみに自分は何度か失敗しました。（[デプロイエラー解決](#error)に続く）
 
 {{< figure src="/images/completejob.png" width=1200 >}}
 
@@ -390,37 +420,36 @@ Actions上で上記のように表示されてジョブがスタートしない�
 
 **Error loading key "/home/runner/.ssh/github": error in libcrypto**  
 {.deco_background_red}
-が出た場合、シークレットの  
+が出た場合、シークレット登録の際、  
 -----BEGIN OPENSSH PRIVATE KEY-----  
 -----END OPENSSH PRIVATE KEY-----  
-を削って登録した疑惑。全部コピペして。
+を削って登録した疑惑。全部コピペすること。
 
 
 ## 画像の挿入 {#insert-image}
 ---
-普通にWebに上がってる画像をURL指定で参照してもいいが、手持ちの画像を表示させたいときは**static**フォルダに画像を入れる。  
-**images**フォルダを作り、必要な画像を入れていく。
+普通にWebに上がってる画像をURL指定で参照してもいいですが、手持ちの画像を表示させたいときは**static**フォルダに画像を格納します。  
+今回は**images**フォルダを作り、そこに必要な画像を入れていきます。
 
 HugoのMarkdownでは  
 `![name](/images/~~~.png)`  
-と記述する。
+と記述します。
 
 また、元サイズから変更したい場合は
 `\{\{< figure src="/images/~~~.png" width=1200 >\}\}`
-のように記述すると、figureタグに変換してくれる。
+のように記述すると、figureタグに変換してくれます。
 
 
 ## コメント欄の追加 {#add-comment}
 ---
-[Disqus](https://disqus.com/)と[utterances](https://utteranc.es/)がある。  
-utterancesが楽そうなのでこっちにした。  
+[Disqus](https://disqus.com/)と[utterances](https://utteranc.es/)が使えそうです。  
+utterancesが楽そうなのでこっちに。  
 ログイン必須ですがコメントがGitHub issue に保存される模様。  
 （Disqusもログイン必須）
 
-
 [utterances app](https://github.com/apps/utterances)をインストール。
 
-その後、single.htmlのフッター直前に以下のコードを挿入するだけでコメントが表示される。
+その後、single.htmlのフッター直前に以下のコードを挿入するだけでコメントが表示されます。
 
 ``` single.html
 <script src="https://utteranc.es/client.js"
@@ -432,13 +461,45 @@ utterancesが楽そうなのでこっちにした。
 </script>
 ```
 
-
 Disqusも導入してみたところ、コンソール画面でコメントの集計や削除ができるといった感じで、
-しっかり運営するならDisqusの方がよさそうだけど、GitHubで完結する楽さには抗えなかった。
+しっかり運営するならDisqusの方がよさそうですが、GitHubで完結する楽さには抗えませんでした。
+
+**追記**：
+issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.app/ja)が使えそうだったので、こっちにしました。
+
+リポジトリ設定のGeneralからDiscussions機能を有効化。  
+※デプロイ先のリポジトリです。
+
+![discussions](/images/discussions.png)
+
+次に[ここ](https://github.com/apps/giscus)から対象のリポジトリへdiscusのインストールを行なう。
+
+その後、[giscus](https://giscus.app/ja)の設定ページから貼り付けるためのコードを生成して、utterancesと同じようにフッターに記述します。  
+カテゴリはAnnouncementsを指定した方がいいらしい。  
+設定した項目によるが、だいたいこんな感じ。  
+
+``` footer.html
+<script src="https://giscus.app/client.js"
+        data-repo="[リポジトリを記述]"
+        data-repo-id="[リポジトリIDを記述]"
+        data-category="[カテゴリ名を記述]"
+        data-category-id="[カテゴリIDを記述]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="ja"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+```
 
 ## Markdownの変換挙動をカスタマイズする {custom-markdown}
 ---
-**layouts/_default/_markup**フォルダ内に**render-{kind}.html**のファイルを作成することで、レンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）の挙動を変えることができる。  
+**layouts/_default/_markup**フォルダ内に**render-{kind}.html**のファイルを作成することで、レンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）の挙動を変えることができます。  
 詳しくは[ここ](https://juggernautjp.info/templates/render-hooks/)
 
 
@@ -449,7 +510,7 @@ Disqusも導入してみたところ、コンソール画面でコメントの�
 
 `layouts/_default/_markup/render-link.html`    
 を新規作成し、下記コードを記載。  
-インデントしたら意図しない空白が入るようにレンダリングされたので一行にまとめた。  
+インデントしたら意図しない空白が入るようにレンダリングされたので一行にまとめました。  
 誰か原因教えて。
 
 ``` render-link.html
@@ -459,14 +520,14 @@ Disqusも導入してみたところ、コンソール画面でコメントの�
 
 ## Markdown内でCSS定義したスタイルを使う {#markdown-css}
 ---
-**hugo.toml**内に下記を追記する。
+**hugo.toml**内に下記を追記。
 
 ``` hugo.toml
 [markup.goldmark.parser.attribute]
 block = true
 ```
 
-さらに**style.css**内で適用したいスタイルを定義する。
+さらに**style.css**内で適用したいスタイルを定義。
 ``` style.css
 .deco_background_red
 {
@@ -475,10 +536,10 @@ block = true
     padding: 0.1em 0.2em 0.1em 0.2em;
 }
 ```
-これでスタイル指定したい箇所の下に`{.deco_background_red} `と書けば、CSSに定義されたスタイルを適用することができる。
+これでスタイル指定したい箇所の下に`{.deco_background_red} `と書けば、CSSに定義されたスタイルを適用することができます。
 
 **Goldmark**については[こちら](https://juggernautjp.info/getting-started/configuration-markup/#goldmark)、そして[リポジトリ](https://github.com/yuin/goldmark/)  
-GoldmarkはMarkdownをレンダリングする際に使われるパーサーで、以前は[blackfriday]()が使われていた。  
+GoldmarkはMarkdownをレンダリングする際に使われるパーサーで、以前は[blackfriday]()が使われていました。  
 blackfridayを使った説明記事を見かけたら回れ右推奨。
 
 
@@ -496,7 +557,7 @@ blackfridayを使った説明記事を見かけたら回れ右推奨。
 ```
 
 既存ファイルの末尾あたりに下記コードを挿入。  
-footer.htmlに入れた。
+footer.htmlに入れました。
 
 ``` footer.html
 {{ if .Store.Get "hasMermaid" }}
@@ -507,7 +568,7 @@ footer.htmlに入れた。
 {{ end }}
 ```
 
-これだけでMarkdown挿入が可能になる。
+これだけでMarkdown挿入が可能に。
 
 ```` markdown.md
 ``` mermaid
@@ -542,11 +603,11 @@ sequenceDiagram
 
 ## Markdown内でGoAT記法を使う {#markdown-goat}
 ---
-デフォルトでサポートされているので、特に設定しなくても使える。
+デフォルトでサポートされているので、特に何も設定しなくても使えます。
 詳しくは[ここ](https://juggernautjp.info/content-management/diagrams/)
 
 そのまま書くと現在のdivサイズに合わせてドデカく表示されるので、
-記事内でサイズコントロールしたい場合は[Markdown内でCSS定義したスタイルを使う](#markdown-css)と合わせてスタイル指定してあげるとよい。
+記事内でサイズコントロールしたい場合は[Markdown内でCSS定義したスタイルを使う](#markdown-css)と合わせてスタイル指定してあげると良さそう。
 
 ```` test.md
 <div style="width: 800px">
@@ -612,7 +673,7 @@ sequenceDiagram
 
 </div>
 
-ちなみにこれをHTMLにレンダリングしたものをみると、とんでもねーコードができあがっている。
+ちなみにこれをHTMLにレンダリングしたものをみると、とんでもないコードができあがっている。
 
 
 ## Google検索で表示させる {#google-search}
