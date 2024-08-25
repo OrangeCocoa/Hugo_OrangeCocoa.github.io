@@ -28,7 +28,7 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 **目次**
 - [Hugoのインストール](#hugo-install)
 - [Hugoのセットアップ](#hugo-setup)
-- [個別ページと一覧ページの作成](#create-page)
+- [シングルページとリストページの作成](#create-page)
 - [TOPページの作成](#create-top)
 - [GitHub リポジトリの作成と、GitHub Actionsへのフック](#hook-github)
 - [デプロイエラー解決](#deploy-error)
@@ -42,8 +42,8 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 - [Google検索で表示させる](#google-search)
 
 
-## Hugoのインストール {#hugo-install}
 ---
+## Hugoのインストール {#hugo-install}
 [ここからDL](https://juggernautjp.info/installation/)  
 Windowsなので  
 
@@ -54,9 +54,8 @@ Windowsなので
 環境変数に登録までされるので、これが一番楽。
 
 
-## Hugoのセットアップ {#hugo-setup}
 ---
-
+## Hugoのセットアップ {#hugo-setup}
 コマンドプロンプトを開き、  
 
 ```
@@ -113,7 +112,7 @@ project
 HTMLを編集したときに限り稀にビルドされないため（キャッシュあるからいいや的な何かが働いてる？）、なんか思ってたのと違う場合はCtrl＋Cで一度サーバーを落として再度ビルドをかけてみるといいかも。
 
 
-### ・hugo.toml
+### hugo.toml
 作成された**hugo.toml**ファイルにWebページの情報を記載します。
 ``` hugo.toml
 baseURL = 'https://OrangeCocoa.github.io'
@@ -124,7 +123,7 @@ title = 'ぶろぐ'
 その他の設定項目については[こちら](https://juggernautjp.info/getting-started/configuration/)、マークアップについては[こちら](https://juggernautjp.info/getting-started/configuration-markup/)を参照。
 
 
-### ・header.html, footer.html, style.css
+### header.html, footer.html, style.css
 分割定義するため、ヘッダとフッタ用のHTMLファイルを作成します。
 
 **layouts/partials**というフォルダを作成し、**header.html**と**footer.html**を作成。
@@ -205,29 +204,26 @@ CSSに関してはHugo固有の挙動などはないので、適宜必要にな�
 （ブラウザに使われているレンダリングエンジンによって挙動が異なるので、全部指定してるって認識でOK）
 
 
-## 個別ページと一覧ページの作成 {#create-page}
 ---
+## シングルページとリストページの作成 {#create-page}
+Hugoにおいて、Webページに必要なHTMLファイルは[テンプレート](https://juggernautjp.info/templates/introduction/)によって自動生成されます。
 
-### single.html
+### layouts/_default/single.html
+まず[シングルページテンプレート](https://juggernautjp.info/templates/single-page-templates/)を作成します。
+
 ``` single.html
 {{ partial "header.html" . }}
         <div>
             <div>{{ .Date.Format "2006.01.02" }}</div>
             <div>{{ .Title }}</div>
-            <div >
-                {{ range .Params.tags }}
-                <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
-                {{ end }}
-            </div>
             <div>{{ .Content }}</div>
         </div>
 {{ partial "footer.html" . }}   
 ```
-contentフォルダ下に新しくフォルダを作ってページ作成すると、個別ページ用のindexページが作成されます。  
-single.htmlは、その個別ページのテンプレートとなります。
-個別ページが作成される際に、single.htmlのレイアウトにしたがって画面が構成されます。
 
-### list.html
+### layouts/_default/list.html
+次に[リストテンプレート](https://juggernautjp.info/templates/lists/)を作成します。
+
 ``` list.html
 {{ partial "header.html" . }}
         <div>
@@ -239,10 +235,12 @@ single.htmlは、その個別ページのテンプレートとなります。
         </div>
 {{ partial "footer.html" . }}
 ```
-contentフォルダ下に新しくフォルダを作ってページ作成すると、個別ページのまとまりを管理するindexページが作成されます。  
-list.htmlは、そのページのテンプレートになります。
+contentフォルダ下に新しくフォルダを作ってページ作成すると、フォルダごとのシングルページを管理できるindexページが作成されます。  
 
-### 記事.md
+### content/[フォルダ名]/[記事名].md
+最後にシングルページの内容をMarkdownで記述します。  
+single.htmlの **.Content**によってレンダリングされます。
+
 ``` 記事.md
 ---
 title: "タイトル"
@@ -255,7 +253,6 @@ tags: [ "" ]
 ## 見出し
 本文
 ```
-個別ページをMarkdownで記述したものになり、single.htmlのテンプレートに従いHTMLファイルに変換されます。
 
 ---で囲まれている部分は、ページのメタデータで[フロントマター](https://juggernautjp.info/content-management/front-matter/)と呼ばれます。
 いろいろ設定できるほか、ユーザー定義もできるため、ページの細かいカテゴリ分けや属性として利用できます。
@@ -268,24 +265,20 @@ tags: [ "" ]
 html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字列がすべて取得できます。
 
 
-## TOPページの作成 {#create-top}
 ---
-### index.html
+## TOPページの作成 {#create-top}
+
+### layouts/index.html
 ``` index.html
 {{ partial "header.html" . }}
 <div id="top_right">
     <div>新着記事</div>
     <div>
         <!--全記事をループで回す-->
-        {{ range .Site.RegularPages }}
+        {{ range first 10 .Site.RegularPages.ByDate.Reverse }}
         <a>{{ .Date.Format "2006.01.02" }} </a>
         <div>
             <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
-            <br />
-            <!--タグを全て表示する-->
-            {{ range .Params.tags }}
-            <a href="{{ $.Site.BaseURL }}tags/{{ . | urlize}}" style="font-size:12px;">#{{ . }}</a>
-            {{ end }}
         </div>
         <br />
         {{ end }}
@@ -298,19 +291,17 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 で分割HTMLの呼び出しを行なっています。  
 （phpであれば`<?php include "header.html" ?>`と記述するところ）
 
-**.Site.RegularPages**で個別ページのみをフォルダ関係なく全て取得できるので、それを**range**でループ処理することで新着一覧を作っています。  
-（**.Site.Pages**では一覧ページも取得してしまう）
+**.Site.RegularPages**を使うことで、シングルページのみをフォルダ関係なく全て取得できるので、それを**range**ループでそれぞれのインスタンスを取得します。  
+（**.Site.Pages**を使うとリストページも取得する）
 
-**.Date.Format**
+**.Date.Format**でフロントマター指定した"date"の項目をフォーマット指定で出力します。
 
-
-
-
-
+**.RelPermalink**でページのURLを取得しhref指定、  
+**.Title**でフロントマター指定した"title"を出力します。
 
 
-## GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
 ---
+## GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
 GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作ります。  
 このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないと、URLが**[アカウント名].github.io/[ブランチ名]**の構成になるらしい。
 アカ名は**OrangeCocoa**なので、ブランチ名は**OrangeCocoa.github.io**。  
@@ -426,8 +417,8 @@ Actions上で上記のように表示されてジョブがスタートしない�
 を削って登録した疑惑。全部コピペすること。
 
 
-## 画像の挿入 {#insert-image}
 ---
+## 画像の挿入 {#insert-image}
 普通にWebに上がってる画像をURL指定で参照してもいいですが、手持ちの画像を表示させたいときは**static**フォルダに画像を格納します。  
 今回は**images**フォルダを作り、そこに必要な画像を入れていきます。
 
@@ -440,8 +431,8 @@ HugoのMarkdownでは
 のように記述すると、figureタグに変換してくれます。
 
 
-## コメント欄の追加 {#add-comment}
 ---
+## コメント欄の追加 {#add-comment}
 [Disqus](https://disqus.com/)と[utterances](https://utteranc.es/)が使えそうです。  
 utterancesが楽そうなのでこっちに。  
 ログイン必須ですがコメントがGitHub issue に保存される模様。  
@@ -472,7 +463,7 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 
 ![discussions](/images/discussions.png)
 
-次に[ここ](https://github.com/apps/giscus)から対象のリポジトリへdiscusのインストールを行なう。
+次に[ここ](https://github.com/apps/giscus)から対象のリポジトリへgiscusのインストールを行なう。
 
 その後、[giscus](https://giscus.app/ja)の設定ページから貼り付けるためのコードを生成して、utterancesと同じようにフッターに記述します。  
 カテゴリはAnnouncementsを指定した方がいいらしい。  
@@ -497,14 +488,14 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 </script>
 ```
 
-## Markdownの変換挙動をカスタマイズする {custom-markdown}
 ---
+## Markdownの変換挙動をカスタマイズする {custom-markdown}
 **layouts/_default/_markup**フォルダ内に**render-{kind}.html**のファイルを作成することで、レンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）の挙動を変えることができます。  
 詳しくは[ここ](https://juggernautjp.info/templates/render-hooks/)
 
 
-## リンクを別タブで開く {#markdown-link}
 ---
+## リンクを別タブで開く {#markdown-link}
 別タブでリンクを開くためには、どうやらレンダリング処理をオーバーライドする必要がある模様。  
 ~（よく使うんだから最初から使えるようにしとけ）~
 
@@ -518,8 +509,8 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 ```
 
 
-## Markdown内でCSS定義したスタイルを使う {#markdown-css}
 ---
+## Markdown内でCSS定義したスタイルを使う {#markdown-css}
 **hugo.toml**内に下記を追記。
 
 ``` hugo.toml
@@ -543,8 +534,8 @@ GoldmarkはMarkdownをレンダリングする際に使われるパーサーで�
 blackfridayを使った説明記事を見かけたら回れ右推奨。
 
 
-## Markdown内でmermaid記法を使う {#markdown-mermaid}
 ---
+## Markdown内でmermaid記法を使う {#markdown-mermaid}
 [ここ](https://juggernautjp.info/content-management/diagrams/#mermaid-diagrams)参照。
 `layouts/_default/_markup/render-codeblock-mermaid.html`  
 を新規作成し、下記コードを記載。
@@ -601,8 +592,8 @@ sequenceDiagram
 ```
 
 
-## Markdown内でGoAT記法を使う {#markdown-goat}
 ---
+## Markdown内でGoAT記法を使う {#markdown-goat}
 デフォルトでサポートされているので、特に何も設定しなくても使えます。
 詳しくは[ここ](https://juggernautjp.info/content-management/diagrams/)
 
@@ -676,23 +667,16 @@ sequenceDiagram
 ちなみにこれをHTMLにレンダリングしたものをみると、とんでもないコードができあがっている。
 
 
-## Google検索で表示させる {#google-search}
 ---
-https://qiita.com/r_saiki/items/9ab3be34fa255724c9dd
-
-サイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
+## Google検索で表示させる {#google-search}
+Google検索に引っ掛けるには、Webページのサイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
+サイトマップはHugoによってデフォルトで作成されるようになっているので、特に設定することはありません。  
+カスタマイズする場合は[こちら](https://juggernautjp.info/templates/sitemap-template/)を参照。
 
 まずはGoogle Search Consoleの登録。
 
 
 
-次にサイトマップの作成。
-下記を記述した**_config.yml**ファイルをプロジェクト直下に作成してGitHubにプッシュ。
-
-``` _config.yml
-plugins:
-  - jekyll-sitemap
-```
 
 **https://[ユーザー名].github.io/[リポジトリ名]/sitemap.xml**のURLでサイトマップが作成されるので、
 

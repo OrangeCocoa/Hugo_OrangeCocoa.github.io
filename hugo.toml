@@ -14,3 +14,10 @@ pluralizeListTitles = false
 # Markdown内で任意のブロックにCSSを指定できるようになる
 [markup.goldmark.parser.attribute]
 block = true
+
+# サイトマップ設定
+[sitemap]
+changefreq = "daily"
+priority = 0.5
+
+# テーマ設定
