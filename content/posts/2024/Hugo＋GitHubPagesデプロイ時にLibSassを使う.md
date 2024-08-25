@@ -1,6 +1,6 @@
 ---
 title: "Hugo＋GitHubPagesデプロイ時にLibSassを使う"
-date: "2024-08-26"
+date: "2024-08-25"
 draft: false
 categories: [ "技術" ]
 tags: [ "HTML", "GitHubActions" ] 
@@ -13,18 +13,24 @@ LibSassは現在公式から非推奨となっていますが、対応した事�
 
 てきとうに作ったscssファイルを **resources.ToCSS**で変換する処理を普通に書きます。
 
-\<head\>タグ内
+<br />
+
+**\<head\>タグ内**
 ``` header.html
 {{ $options := (dict "transpiler" "libsass" "targetPath" "css/style.css") }}
 {{ with resources.Get "css/tekitou.scss" | toCSS $options | minify }}
 <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
 ```
 
+<br />
+
 ワークフロー内でHugoをセットアップする処理の中に`extended: true`の記述を追加します。  
 これはHugoの拡張バージョンを使用するように設定するものですが、LibSassトランスパイラは拡張版に含まれるものであると[ドキュメント](https://gohugo.io/functions/resources/tocss/)に明記しているため、  
 初期値falseのままではLibSassを利用できません。
 
-config.yml
+<br />
+
+**config.yml**
 ``` config.yml
 name: github pages
 
