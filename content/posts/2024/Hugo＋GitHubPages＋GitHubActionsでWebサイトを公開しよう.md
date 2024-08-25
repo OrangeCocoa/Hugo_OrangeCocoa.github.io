@@ -3,7 +3,7 @@ title: "Hugo＋GitHubPages＋GitHubActionsでWebサイトを公開しよう"
 date: "2024-08-02"
 draft: false
 categories: [ "技術" ]
-tags: [ "HTML" ] 
+tags: [ "HTML", "GitHubActions" ] 
 ---
 
 Webページ作成はHTMLべた書きでめんどくさくて時間もかかるし大して面白くない、レンダリングエンジン作る方が面白そう、とそんなイメージを持っていましたが、  
@@ -685,7 +685,7 @@ Google Analyticsに登録していなかったり、DNSレコードが関連付�
 
 そのままだとHTMLがファイルが消えた場合に関連付けができなくなってしまうので、サイト内にメタタグを埋め込みます。  
 設定からHTMLタグを選択し、表示されたコードをコピー。  
-<head>タグ内にペーストし、サイトに適用されたら確認ボタンを押します。
+\<head\>タグ内にペーストし、サイトに適用されたら確認ボタンを押します。
 
 ![sitemap03](/images/sitemap03.png)
 
