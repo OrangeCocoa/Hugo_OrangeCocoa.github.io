@@ -673,11 +673,25 @@ Google検索に引っ掛けるには、Webページのサイトマップを作�
 サイトマップはHugoによってデフォルトで作成されるようになっているので、特に設定することはありません。  
 カスタマイズする場合は[こちら](https://juggernautjp.info/templates/sitemap-template/)を参照。
 
-まずはGoogle Search Consoleの登録。
+まずはGoogle Search Consoleの登録。  
+URLプレフィックスの方に登録するサイトのURLを入力し、続行します。
 
+![sitemap01](/images/sitemap01.png)
 
+Google Analyticsに登録していなかったり、DNSレコードが関連付けられていない場合は、サイトの所有権が確認できていない状態なので、確認をとる必要があります。  
+ファイルをダウンロードし、デプロイ先のリポジトリ直下にhtmlファイルを配置したあと、確認ボタンを押してください。
 
+![sitemap02](/images/sitemap02.png)
 
-**https://[ユーザー名].github.io/[リポジトリ名]/sitemap.xml**のURLでサイトマップが作成されるので、
+そのままだとHTMLがファイルが消えた場合に関連付けができなくなってしまうので、サイト内にメタタグを埋め込みます。  
+設定からHTMLタグを選択し、表示されたコードをコピー。  
+<head>タグ内にペーストし、サイトに適用されたら確認ボタンを押します。
 
+![sitemap03](/images/sitemap03.png)
 
+**https://[ユーザー名].github.io/[リポジトリ名]/sitemap.xml**のURLでサイトマップが作成されていると思うので、  
+Google Search Consoleのサイトマップから、サイトマップのパスを入力して送信します。
+
+![sitemap04](/images/sitemap04.png)
+
+これで2, 3日待てばGoogle検索に引っかかるようになります。

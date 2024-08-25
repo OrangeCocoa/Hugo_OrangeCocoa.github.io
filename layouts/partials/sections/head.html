@@ -1,10 +1,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{ $options := (dict "transpiler" "libsass" "targetPath" "css/style.css") }}
+    <meta name="google-site-verification" content="h63xtNzB2lPdUWJQuarTUFRI-4cuaBkepZGUMW11GCw" />
     {{ with resources.Get "css/bulma.css" }}
     <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
+    {{ $options := (dict "transpiler" "libsass" "targetPath" "css/style.css") }}
     {{ with resources.Get "css/custom.scss" | toCSS $options | minify }}
     <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
