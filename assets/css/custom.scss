@@ -168,7 +168,7 @@ TOPページ
 #top_contents
 {
     display: flex;
-    max-width: 1500px;
+    max-width: 2000px;
     margin: auto;
 }
 
@@ -219,7 +219,8 @@ TOPページ右カラム
 
 #page_contents_body
 {
-    width : 1500px;
+    width : 95%;
+    max-width : 2000px;
     margin-top : 3%;
     margin: auto;
 }
