@@ -5,7 +5,7 @@
     {{ with resources.Get "css/bulma.css" }}
     <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
-    {{ $options := (dict "transpiler" "libsass" "targetPath" "css/style.css") }}
+    {{ $options := (dict "transpiler" "dartsass" "targetPath" "css/style.css") }}
     {{ with resources.Get "css/custom.scss" | toCSS $options | minify }}
     <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
