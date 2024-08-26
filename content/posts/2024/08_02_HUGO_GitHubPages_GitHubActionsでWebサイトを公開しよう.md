@@ -173,7 +173,7 @@ title = 'ぶろぐ'
 
 ``` footer.html
         <footer>
-            <div id="footer_rights">© 2024 （仮） All rights reserved.</div>
+            <div class="footer">© 2024 （仮） All rights reserved.</div>
         </footer>
     </body>
 </html>
@@ -191,32 +191,27 @@ html内のグローバルスコープは[Page](https://juggernautjp.info/variabl
 続いて、**static**フォルダ内に**style.css**を作成。
 
 ``` style.css
-html
-{
+html {
     scroll-behavior: smooth;
 }
 
-body
-{
+body {
     background-color : #f5f5f5;
 }
 
-header
-{
+header {
     padding-top : 1%;
     padding-bottom : 1%;
 }
 
-div
-{
+div {
     display: block;
     unicode-bidi: isolate;
     padding-top : 5px;
     padding-bottom : 5px;
 }
 
-#footer_rights
-{
+.footer {
     text-align: center;
 
     /*　範囲選択を禁止する*/
