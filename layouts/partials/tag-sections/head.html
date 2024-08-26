@@ -9,5 +9,5 @@
     {{ with resources.Get "css/custom.scss" | toCSS $options | minify }}
     <link rel="stylesheet" type="text/css" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
-    <title>備忘録（仮）</title>
+    <title>{{ .Site.Title }}</title>
 </head>

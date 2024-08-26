@@ -1,6 +1,6 @@
 baseURL = 'https://OrangeCocoa.github.io'
 languageCode = 'ja-jp'
-title = '備忘録（仮）'
+title = '天上天下唯我独尊備忘録雑記メモ覚書'
 
 # セクション名を自動で複数形化するのを防ぐ
 pluralizeListTitles = false
