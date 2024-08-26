@@ -10,7 +10,6 @@ pluralizeListTitles = false
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-      hardWraps = true
 
 # Markdown内で任意のブロックにCSSを指定できるようになる
 [markup.goldmark.parser.attribute]
