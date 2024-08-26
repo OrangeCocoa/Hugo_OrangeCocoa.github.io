@@ -56,7 +56,7 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 
 
 ---
-## Hugoのインストール {#hugo-install}
+### Hugoのインストール {#hugo-install}
 [ここからDL](https://juggernautjp.info/installation/)  
 Windowsなので  
 
@@ -67,7 +67,7 @@ Windowsなので
 
 
 ---
-## Hugoのセットアップ {#hugo-setup}
+### Hugoのセットアップ {#hugo-setup}
 コマンドプロンプトを開き、  
 
 ``` s
@@ -132,7 +132,7 @@ HTMLを編集したときに限り稀にビルドされないため（キャッ�
 
 <br />
 
-### hugo.toml
+#### hugo.toml
 作成された**hugo.toml**ファイルにWebページの情報を記載します。
 ``` hugo.toml
 baseURL = 'https://OrangeCocoa.github.io'
@@ -146,7 +146,7 @@ title = 'ぶろぐ'
 
 <br />
 
-### header.html, footer.html, style.css
+#### header.html, footer.html, style.css
 分割定義するため、ヘッダとフッタ用のHTMLファイルを作成します。
 
 <br />
@@ -237,12 +237,12 @@ CSSに関してはHugo固有の挙動などはないので、適宜必要にな�
 
 
 ---
-## シングルページとリストページの作成 {#create-page}
+### シングルページとリストページの作成 {#create-page}
 Hugoにおいて、Webページに必要なHTMLファイルは[テンプレート](https://juggernautjp.info/templates/introduction/)によって自動生成されます。
 
 <br />
 
-### layouts/_default/single.html
+#### layouts/_default/single.html
 まず[シングルページテンプレート](https://juggernautjp.info/templates/single-page-templates/)を作成します。
 
 ``` single.html
@@ -257,7 +257,7 @@ Hugoにおいて、Webページに必要なHTMLファイルは[テンプレー�
 
 <br />
 
-### layouts/_default/list.html
+#### layouts/_default/list.html
 次に[リストテンプレート](https://juggernautjp.info/templates/lists/)を作成します。
 
 ``` list.html
@@ -277,7 +277,7 @@ contentフォルダ下に新しくフォルダを作ってページ作成する�
 
 <br />
 
-### content/[フォルダ名]/[記事名].md
+#### content/[フォルダ名]/[記事名].md
 最後にシングルページの内容をMarkdownで記述します。  
 single.htmlの **.Content**によってレンダリングされます。
 
@@ -292,7 +292,7 @@ categories: [ "" ]
 tags: [ "" ] 
 ---
 
-## 見出し
+### 見出し
 本文
 ```
 
@@ -314,9 +314,9 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 
 
 ---
-## TOPページの作成 {#create-top}
+### TOPページの作成 {#create-top}
 
-### layouts/index.html
+#### layouts/index.html
 ``` index.html
 {{ partial "header.html" . }}
 <div id="top_right">
@@ -357,7 +357,7 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 
 
 ---
-## GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
+### GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
 GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作ります。  
 このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないと、URLが**[アカウント名].github.io/[ブランチ名]**の構成になるらしい。
 アカ名は**OrangeCocoa**なので、ブランチ名は**OrangeCocoa.github.io**。  
@@ -474,7 +474,7 @@ jobs:
 
 <br />
 
-### デプロイエラー解決 {#deploy-error}
+#### デプロイエラー解決 {#deploy-error}
 **「Waiting for a runner to pick up this job...」**
 {.deco_background_red} 
 Actions上で上記のように表示されてジョブがスタートしない場合、OS指定がミスってるのでubuntu-latestを指定。
@@ -514,7 +514,7 @@ Actions上で上記のように表示されてジョブがスタートしない�
 
 
 ---
-## 画像の挿入 {#insert-image}
+### 画像の挿入 {#insert-image}
 普通にWebに上がってる画像をURL指定で参照してもいいですが、手持ちの画像を表示させたいときは**static**フォルダに画像を格納します。  
 今回は**images**フォルダを作り、そこに必要な画像を入れていきます。
 
@@ -532,7 +532,7 @@ HugoのMarkdownでは
 
 
 ---
-## コメント欄の追加 {#add-comment}
+### コメント欄の追加 {#add-comment}
 [Disqus](https://disqus.com/)と[utterances](https://utteranc.es/)が使えそうです。  
 utterancesが楽そうなのでこっちに。  
 ログイン必須ですがコメントがGitHub issue に保存される模様。  
@@ -609,13 +609,13 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 ```
 
 ---
-## Markdownの変換挙動をカスタマイズする {custom-markdown}
+### Markdownの変換挙動をカスタマイズする {custom-markdown}
 **layouts/_default/_markup**フォルダ内に**render-{kind}.html**のファイルを作成することで、レンダリング（MarkdownをHTMLコードに変換することをそう呼ぶらしい）の挙動を変えることができます。  
 詳しくは[ここ](https://juggernautjp.info/templates/render-hooks/)
 
 
 ---
-## リンクを別タブで開く {#markdown-link}
+### リンクを別タブで開く {#markdown-link}
 別タブでリンクを開くためには、どうやらレンダリング処理をオーバーライドする必要がある模様。  
 ~（よく使うんだから最初から使えるようにしとけ）~
 
@@ -634,7 +634,7 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 
 
 ---
-## Markdown内でCSS定義したスタイルを使う {#markdown-css}
+### Markdown内でCSS定義したスタイルを使う {#markdown-css}
 **hugo.toml**内に下記を追記。
 
 <br />
@@ -668,7 +668,7 @@ blackfridayを使った説明記事を見かけたら回れ右推奨。
 
 
 ---
-## Markdown内でmermaid記法を使う {#markdown-mermaid}
+### Markdown内でmermaid記法を使う {#markdown-mermaid}
 [ここ](https://juggernautjp.info/content-management/diagrams/#mermaid-diagrams)参照。
 `layouts/_default/_markup/render-codeblock-mermaid.html`  
 を新規作成し、下記コードを記載。
@@ -736,7 +736,7 @@ sequenceDiagram
 
 
 ---
-## Markdown内でGoAT記法を使う {#markdown-goat}
+### Markdown内でGoAT記法を使う {#markdown-goat}
 デフォルトでサポートされているので、特に何も設定しなくても使えます。
 詳しくは[ここ](https://juggernautjp.info/content-management/diagrams/)
 
@@ -815,7 +815,7 @@ sequenceDiagram
 
 
 ---
-## Google検索で表示させる {#google-search}
+### Google検索で表示させる {#google-search}
 Google検索に引っ掛けるには、Webページのサイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
 サイトマップはHugoによってデフォルトで作成されるようになっているので、特に設定することはありません。  
 カスタマイズする場合は[こちら](https://juggernautjp.info/templates/sitemap-template/)を参照。
