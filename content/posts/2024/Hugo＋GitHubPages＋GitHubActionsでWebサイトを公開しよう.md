@@ -1,9 +1,9 @@
 ---
-title: "Hugo＋GitHubPages＋GitHubActionsでWebサイトを公開しよう"
+title: "HUGO＋GitHubPages＋GitHubActionsでWebサイトを公開しよう"
 date: "2024-08-02"
 draft: false
 categories: [ "技術" ]
-tags: [ "HTML", "GitHubActions" ] 
+tags: [ "HUGO", "GitHubActions" ] 
 ---
 
 Webページ作成はHTMLべた書きでめんどくさくて時間もかかるし大して面白くない、レンダリングエンジン作る方が面白そう、とそんなイメージを持っていましたが、  
@@ -11,36 +11,37 @@ HUGOとGitHubActionsを使って公開まで自動化ができるというのを
 この記事は実際にデプロイして公開までやってみた備忘録になります。  
 現時点でWebの知識もお金も全くないです。
 
-<br />
+<br>
 
 公開先をGitHub PagesにするかNetlifyにするかで迷いましたが、いろいろとめんどくさくないGitHubPagesに決定。  
+ブログっぽいものとして最低限必要な要素を解説していきます。
 
-<br />
+<br>
 
 注意点ですが、[GitHub Pages](https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages#github-pages%E3%81%AE%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E5%88%B6%E9%99%90)はアフィリエイトなどの運用は恐らく認められていません。
 
-<br />
+<br>
 
 GitHubでソースコード公開してるので、気になったら参考にどうぞ。  
 https://github.com/OrangeCocoa/Hugo_OrangeCocoa.github.io
 
-<br />
+<br>
 
 クイックスタートガイドは[ここ](https://juggernautjp.info/getting-started/quick-start/)
 
-<br />
+<br>
 
-HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://juggernautjp.info/templates/introduction/)
+HUGOでよく使うGoテンプレートの基本構文は[ここ](https://juggernautjp.info/templates/introduction/)
 
-<br />
+<br>
 
 （リンクを英語ドキュメントから日本語ドキュメントに差し替えましたが、一部翻訳ページがないものもあります）
 
-<br />
+<br>
 
 **目次**
-- [Hugoのインストール](#hugo-install)
-- [Hugoのセットアップ](#hugo-setup)
+- [HUGOのインストール](#hugo-install)
+- [HUGOのセットアップ](#hugo-setup)
 - [シングルページとリストページの作成](#create-page)
 - [TOPページの作成](#create-top)
 - [GitHub リポジトリの作成と、GitHub Actionsへのフック](#hook-github)
@@ -56,7 +57,7 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 
 
 ---
-### Hugoのインストール {#hugo-install}
+### HUGOのインストール {#hugo-install}
 [ここからDL](https://juggernautjp.info/installation/)  
 Windowsなので  
 
@@ -67,7 +68,7 @@ Windowsなので
 
 
 ---
-### Hugoのセットアップ {#hugo-setup}
+### HUGOのセットアップ {#hugo-setup}
 コマンドプロンプトを開き、  
 
 ``` s
@@ -84,12 +85,12 @@ hugo server
 
 ```
 
-<br />
+<br>
 
 `hugo new site` でいくつかフォルダが作られるが、よく使うのは**content**, **layouts**, **static**の三つ。  
 また**hugo.toml**はプロジェクトの設定ファイルになるので、これもよく編集します。  
 
-<br />
+<br>
 
 フォルダ構成はこんな感じ。
 <div style="width: 300px">
@@ -118,19 +119,19 @@ project
 - [themes](https://juggernautjp.info/hugo-modules/theme-components/)    ・・・Hugoのテーマの保存先
 - [hugo.toml](https://juggernautjp.info/getting-started/configuration/) ・・・Webサイトの設定ファイル、バージョンによって名前がconfig.tomlだったりする
 
-<br />
+<br>
 
 プロジェクトのディレクトリで `hugo` コマンドを実行すると、リリース用のURLを設定したHTML群が**public**フォルダにビルドされます。  
 今回はGitHub Actionsにビルドを任せるので使わなくてもOK。
 
-<br />
+<br>
 
 `hugo server` コマンドを実行すると、URL接続先をローカルサーバ用にしたHTML群が**public**フォルダにビルドされ、1313番ポートが開放されます。  
 この状態で**http://localhost:1313/**にアクセスすると、レイアウトなどの確認が可能になります。  
 また、ローカルサーバーモード起動中はホットリロードが有効なので、MarkdownやHTMLを編集すると、保存した段階でビルドが走り即座に反映が可能。  
 HTMLを編集したときに限り稀にビルドされないため（キャッシュあるからいいや的な何かが働いてる？）、なんか思ってたのと違う場合はCtrl＋Cで一度サーバーを落として再度ビルドをかけてみるといいかも。
 
-<br />
+<br>
 
 #### hugo.toml
 作成された**hugo.toml**ファイルにWebページの情報を記載します。
@@ -140,16 +141,16 @@ languageCode = 'ja-jp'
 title = 'ぶろぐ'
 ```
 
-<br />
+<br>
 
 その他の設定項目については[こちら](https://juggernautjp.info/getting-started/configuration/)、マークアップについては[こちら](https://juggernautjp.info/getting-started/configuration-markup/)を参照。
 
-<br />
+<br>
 
 #### header.html, footer.html, style.css
 分割定義するため、ヘッダとフッタ用のHTMLファイルを作成します。
 
-<br />
+<br>
 
 **layouts/partials**というフォルダを作成し、**header.html**と**footer.html**を作成。
 
@@ -178,14 +179,14 @@ title = 'ぶろぐ'
 </html>
 ```
 
-<br />
+<br>
 
 **.Site.BaseURL**と書いている箇所がありますが、  
 html内のグローバルスコープは[Page](https://juggernautjp.info/variables/page/)なので、  
 `{{  }}` で囲い、ドット演算子を用いることで**Page**内の関数呼び出しや変数の参照が可能。  
 この場合は**hugo.toml**で指定した**baseURL**を呼び出しています。
 
-<br />
+<br>
 
 続いて、**static**フォルダ内に**style.css**を作成。
 
@@ -226,11 +227,11 @@ div
 }
 ```
 
-<br />
+<br>
 
-CSSに関してはHugo固有の挙動などはないので、適宜必要になった時に調べて追記していきます。
+CSSに関してはHUGO固有の挙動などはないので、適宜必要になった時に調べて追記していきます。
 
-<br />
+<br>
 
 範囲選択禁止部分のベンダープレフィックスについては[こちら](https://developer.mozilla.org/ja/docs/Glossary/Vendor_Prefix)  
 （ブラウザに使われているレンダリングエンジンによって挙動が異なるので、全部指定してるって認識でOK）
@@ -238,9 +239,9 @@ CSSに関してはHugo固有の挙動などはないので、適宜必要にな�
 
 ---
 ### シングルページとリストページの作成 {#create-page}
-Hugoにおいて、Webページに必要なHTMLファイルは[テンプレート](https://juggernautjp.info/templates/introduction/)によって自動生成されます。
+HUGOにおいて、Webページに必要なHTMLファイルは[テンプレート](https://juggernautjp.info/templates/introduction/)によって自動生成されます。
 
-<br />
+<br>
 
 #### layouts/_default/single.html
 まず[シングルページテンプレート](https://juggernautjp.info/templates/single-page-templates/)を作成します。
@@ -255,7 +256,7 @@ Hugoにおいて、Webページに必要なHTMLファイルは[テンプレー�
 {{ partial "footer.html" . }}   
 ```
 
-<br />
+<br>
 
 #### layouts/_default/list.html
 次に[リストテンプレート](https://juggernautjp.info/templates/lists/)を作成します。
@@ -266,22 +267,22 @@ Hugoにおいて、Webページに必要なHTMLファイルは[テンプレー�
             <div>記事一覧</div>
             {{ range (.Paginator 10).Pages }}
             <a>{{ .Date.Format "2006.01.02" }} </a>
-            <a href="{{ .RelPermalink }}">{{ .Title }}</a><br />
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a><br>
             {{ end }}
         </div>
 {{ partial "footer.html" . }}
 ```
-<br />
+<br>
 
 contentフォルダ下に新しくフォルダを作ってページ作成すると、フォルダごとのシングルページを管理できるindexページが作成されます。  
 
-<br />
+<br>
 
 #### content/[フォルダ名]/[記事名].md
 最後にシングルページの内容をMarkdownで記述します。  
 single.htmlの **.Content**によってレンダリングされます。
 
-<br />
+<br>
 
 ``` 記事.md
 ---
@@ -296,17 +297,17 @@ tags: [ "" ]
 本文
 ```
 
-<br />
+<br>
 
 ---で囲まれている部分は、ページのメタデータで[フロントマター](https://juggernautjp.info/content-management/front-matter/)と呼ばれます。
 いろいろ設定できるほか、ユーザー定義もできるため、ページの細かいカテゴリ分けや属性として利用できます。
 
-<br />
+<br>
 
 文字列や数値、bool値、日付といったものはそのまま任意の変数を追加するだけで利用でき、HTMLから **.Param.[名前]**で取得できます。
 くわしくは[こちら](https://juggernautjp.info/function/param/)
 
-<br />
+<br>
 
 文字列配列を設定する場合は[タクソノミー](https://juggernautjp.info/content-management/taxonomies/)設定を行ないます。
 タクソノミーで追加された値は、public/tags/~のように一覧化され、
@@ -328,29 +329,29 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
         <div>
             <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
         </div>
-        <br />
+        <br>
         {{ end }}
     </div>
 </div>
 {{ partial "footer.html" . }}
 ```
 
-<br />
+<br>
 
 `{{ partial "header.html" . }}`  
 で分割HTMLの呼び出しを行なっています。  
 （phpであれば`<?php include "header.html" ?>`と記述するところ）
 
-<br />
+<br>
 
 **.Site.RegularPages**を使うことで、シングルページのみをフォルダ関係なく全て取得できるので、それを**range**ループでそれぞれのインスタンスを取得します。  
 （**.Site.Pages**を使うとリストページも取得する）
 
-<br />
+<br>
 
 **.Date.Format**でフロントマター指定した"date"の項目をフォーマット指定で出力します。
 
-<br />
+<br>
 
 **.RelPermalink**でページのURLを取得しhref指定、  
 **.Title**でフロントマター指定した"title"を出力します。
@@ -358,73 +359,73 @@ html内で **.Site.Taxonomies.tags**と呼ぶことで、定義された文字�
 
 ---
 ### GitHub リポジトリの作成と、GitHub Actionsへのフック {#hook-github}
-GitHubにHugoのデプロイ先と、Hugoプロジェクトの二つのリポジトリを作ります。  
-このとき、Hugoのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないと、URLが**[アカウント名].github.io/[ブランチ名]**の構成になるらしい。
+GitHubにHUGOのデプロイ先と、HUGOプロジェクトの二つのリポジトリを作ります。  
+このとき、HUGOのデプロイ先はどうもGitHubアカウント名と同じ名前を使わないと、URLが**[アカウント名].github.io/[ブランチ名]**の構成になるらしい。
 アカ名は**OrangeCocoa**なので、ブランチ名は**OrangeCocoa.github.io**。  
 これでURLは**https://OrangeCocoa.github.io**になる想定。  
 気に入らなければサイト名のGitHubアカウントを新規に取得してしまってもいい。
 
-<br />
+<br>
 
 エンジニアならリポジトリの作り方くらい知ってると思いますが、一応手順を記載します。
 
-<br />
+<br>
 
-1. WebのGitHubで空のHugoデプロイ先と、Hugoプロジェクトのリモートリポジトリを作成。
+1. WebのGitHubで空のHUGOデプロイ先と、HUGOプロジェクトのリモートリポジトリを作成。
 
-2. [Fork](https://git-fork.com/)を使ってる場合、File > Init New RepositoryでHugoプロジェクトのフォルダを選択してローカルリポジトリを作成。（Hugoデプロイ先はいらない）
+2. [Fork](https://git-fork.com/)を使ってる場合、File > Init New RepositoryでHUGOプロジェクトのフォルダを選択してローカルリポジトリを作成。（Hugoデプロイ先はいらない）
 
-3. Hugoプロジェクトのローカルリポジトリタブを選択している状態で、右上にあるConsoleボタンを押してコマンドプロンプトを開き、下記コマンドを実行。  
+3. HUGOプロジェクトのローカルリポジトリタブを選択している状態で、右上にあるConsoleボタンを押してコマンドプロンプトを開き、下記コマンドを実行。  
 その後プッシュすればリモートブランチ作成コミットとなります。
 
-<br />
+<br>
 
 `git remote add origin https://github.com/[アカウント名]/[リポジトリ名]`
 
-<br />
+<br>
 
 それが済んだらデプロイのためのSSH鍵を登録していきます。
 
-<br />
+<br>
 
 コマンドプロンプトなどで
 
 `ssh-keygen -t ed25519 -f blog_ssh`  
 を実行して適当に公開鍵と秘密鍵を作成。
 
-<br />
+<br>
 
 ![sshkey](/images/sshkey.png)
 
-<br />
+<br>
 
-次に公開鍵（.pubとついてる方）をHugoのデプロイ先リポジトリに登録。  
+次に公開鍵（.pubとついてる方）をHUGOのデプロイ先リポジトリに登録。  
 メモ帳などのテキストエディタで開いてコピペ。
 
-<br />
+<br>
 
 このとき、Allow write accessにチェックを入れるのを忘れずに。  
 書き込み権限がなくてデプロイに失敗します。
 {.deco_background_red}
 
-<br />
+<br>
 
 ![deploykey](/images/deploykey.png)
 
-<br />
+<br>
 
-続いてHugoプロジェクトのリポジトリに秘密鍵を登録。  
+続いてHUGOプロジェクトのリポジトリに秘密鍵を登録。  
 ここで書いたTitleが実行ファイルのシークレット指定に必要になってくるのでコピペ。
 
-<br />
+<br>
 
 ![secretkey](/images/secretkey.png)
 
-<br />
+<br>
 
 その後、プロジェクト直下から `.github/workflows/gh-pages.yml` ファイルを作成して以下の実行処理を記載。
 
-<br />
+<br>
 
 ``` gh-pages.yml
 name: github pages
@@ -432,16 +433,20 @@ name: github pages
 on:
   push:
     branches:
-      - master  # Set a branch name to trigger deployment
+      - master  # ブランチ名に対してデプロイを実行
+
+  # Actionタブからこのワークフローを手動で実行できる
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          submodules: true  # サブモジュールに登録されたテーマもフェッチするか
+          fetch-depth: 0    # 全タグ・全ブランチ・全履歴を取得する
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
@@ -451,6 +456,10 @@ jobs:
       - name: Build
         run: hugo --minify
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -459,51 +468,51 @@ jobs:
           publish_branch: master
 ```
 
-<br />
+<br>
 
-上記が終わったらHugoプロジェクトをコミット。
+上記が終わったらHUGOプロジェクトをコミット。
 
-<br />
+<br>
 
 添付画像のとおりビルドが通れば成功です。  
 ちなみに自分は何度か失敗しました。（[デプロイエラー解決](#error)に続く）
 
-<br />
+<br>
 
 {{< figure src="/images/completejob.png" width=1200 >}}
 
-<br />
+<br>
 
 #### デプロイエラー解決 {#deploy-error}
 **「Waiting for a runner to pick up this job...」**
 {.deco_background_red} 
 Actions上で上記のように表示されてジョブがスタートしない場合、OS指定がミスってるのでubuntu-latestを指定。
 
-<br />
+<br>
 
 **Error: fatal: No url found for submodule path 'public' in .gitmodules**  
 {.deco_background_red}
 のエラーでBuildが止まった場合、publicやresourcesフォルダなどのHugoが生成するフォルダがデプロイ先リポジトリに含まれているので、削除しておく。
 
-<br />
+<br>
 
 **Error: Unable to locate config file or config directory. Perhaps you need to create a new site.**  
 {.deco_background_red}
 が出た場合、hugo-version指定が古くてhugo.tomlでなくconfig.tomlを探しに行ってるので、'latest'指定しておく。
 
-<br />
+<br>
 
 **ERROR: The key you are authenticating with has been marked as read only.**  
 {.deco_background_red}
 が出た場合、デプロイキーに書き込み権限がないのでデプロイキーを登録しなおすこと。
 
-<br />
+<br>
 
 **Error: Action failed with "not found deploy key or tokens"**  
 {.deco_background_red}
 が出た場合、シークレットが登録されていない。
 
-<br />
+<br>
 
 **Error loading key "/home/runner/.ssh/github": error in libcrypto**  
 {.deco_background_red}
@@ -518,13 +527,13 @@ Actions上で上記のように表示されてジョブがスタートしない�
 普通にWebに上がってる画像をURL指定で参照してもいいですが、手持ちの画像を表示させたいときは**static**フォルダに画像を格納します。  
 今回は**images**フォルダを作り、そこに必要な画像を入れていきます。
 
-<br />
+<br>
 
-HugoのMarkdownでは  
+HUGOのMarkdownでは  
 `![name](/images/~~~.png)`  
 と記述します。
 
-<br />
+<br>
 
 また、元サイズから変更したい場合は
 `\{\{< figure src="/images/~~~.png" width=1200 >\}\}`
@@ -538,15 +547,15 @@ utterancesが楽そうなのでこっちに。
 ログイン必須ですがコメントがGitHub issue に保存される模様。  
 （Disqusもログイン必須）
 
-<br />
+<br>
 
 [utterances app](https://github.com/apps/utterances)をインストール。
 
-<br />
+<br>
 
 その後、single.htmlのフッター直前に以下のコードを挿入するだけでコメントが表示されます。
 
-<br />
+<br>
 
 ``` single.html
 <script src="https://utteranc.es/client.js"
@@ -558,36 +567,36 @@ utterancesが楽そうなのでこっちに。
 </script>
 ```
 
-<br />
+<br>
 
 Disqusも導入してみたところ、コンソール画面でコメントの集計や削除ができるといった感じで、
 しっかり運営するならDisqusの方がよさそうですが、GitHubで完結する楽さには抗えませんでした。
 
-<br />
+<br>
 
 **追記**：
 issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.app/ja)が使えそうだったので、こっちにしました。
 
-<br />
+<br>
 
 リポジトリ設定のGeneralからDiscussions機能を有効化。  
 ※デプロイ先のリポジトリです。
 
-<br />
+<br>
 
 ![discussions](/images/discussions.png)
 
-<br />
+<br>
 
 次に[ここ](https://github.com/apps/giscus)から対象のリポジトリへgiscusのインストールを行なう。
 
-<br />
+<br>
 
 その後、[giscus](https://giscus.app/ja)の設定ページから貼り付けるためのコードを生成して、utterancesと同じようにフッターに記述します。  
 カテゴリはAnnouncementsを指定した方がいいらしい。  
 設定した項目によるが、だいたいこんな感じ。  
 
-<br />
+<br>
 
 ``` footer.html
 <script src="https://giscus.app/client.js"
@@ -619,14 +628,14 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 別タブでリンクを開くためには、どうやらレンダリング処理をオーバーライドする必要がある模様。  
 ~（よく使うんだから最初から使えるようにしとけ）~
 
-<br />
+<br>
 
 `layouts/_default/_markup/render-link.html`    
 を新規作成し、下記コードを記載。  
 インデントしたら意図しない空白が入るようにレンダリングされたので一行にまとめました。  
 誰か原因教えて。
 
-<br />
+<br>
 
 ``` render-link.html
 <a href="{{ .Destination | safeURL }}" {{ with .Title }} title="{{ . }}"{{ end }} {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"{{ end }}>{{.Text}}</a>
@@ -637,14 +646,14 @@ issueではなくdiscussionsにコメント蓄積する[giscus](https://giscus.a
 ### Markdown内でCSS定義したスタイルを使う {#markdown-css}
 **hugo.toml**内に下記を追記。
 
-<br />
+<br>
 
 ``` hugo.toml
 [markup.goldmark.parser.attribute]
 block = true
 ```
 
-<br />
+<br>
 
 さらに**style.css**内で適用したいスタイルを定義。
 ``` style.css
@@ -656,11 +665,11 @@ block = true
 }
 ```
 
-<br />
+<br>
 
 これでスタイル指定したい箇所の下に`{.deco_background_red} `と書けば、CSSに定義されたスタイルを適用することができます。
 
-<br />
+<br>
 
 **Goldmark**については[こちら](https://juggernautjp.info/getting-started/configuration-markup/#goldmark)、そして[リポジトリ](https://github.com/yuin/goldmark/)  
 GoldmarkはMarkdownをレンダリングする際に使われるパーサーで、以前は[blackfriday]()が使われていました。  
@@ -673,7 +682,7 @@ blackfridayを使った説明記事を見かけたら回れ右推奨。
 `layouts/_default/_markup/render-codeblock-mermaid.html`  
 を新規作成し、下記コードを記載。
 
-<br />
+<br>
 
 ``` render-codeblock-mermaid.html
 <pre class="mermaid">
@@ -682,12 +691,12 @@ blackfridayを使った説明記事を見かけたら回れ右推奨。
 {{ .Page.Store.Set "hasMermaid" true }}
 ```
 
-<br />
+<br>
 
 既存ファイルの末尾あたりに下記コードを挿入。  
 footer.htmlに入れました。
 
-<br />
+<br>
 
 ``` footer.html
 {{ if .Store.Get "hasMermaid" }}
@@ -698,11 +707,11 @@ footer.htmlに入れました。
 {{ end }}
 ```
 
-<br />
+<br>
 
 これだけでMarkdown挿入が可能に。
 
-<br />
+<br>
 
 ```` markdown.md
 ``` mermaid
@@ -740,12 +749,12 @@ sequenceDiagram
 デフォルトでサポートされているので、特に何も設定しなくても使えます。
 詳しくは[ここ](https://juggernautjp.info/content-management/diagrams/)
 
-<br />
+<br>
 
 そのまま書くと現在のdivサイズに合わせてドデカく表示されるので、
 記事内でサイズコントロールしたい場合は[Markdown内でCSS定義したスタイルを使う](#markdown-css)と合わせてスタイル指定してあげると良さそう。
 
-<br />
+<br>
 
 ```` test.md
 <div style="width: 800px">
@@ -817,46 +826,46 @@ sequenceDiagram
 ---
 ### Google検索結果に表示させる {#google-search}
 Google検索に引っ掛けるには、Webページのサイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
-サイトマップはHugoによってデフォルトで作成されるようになっているので、特に設定することはありません。  
+サイトマップはHUGOによってデフォルトで作成されるようになっているので、特に設定することはありません。  
 カスタマイズする場合は[こちら](https://juggernautjp.info/templates/sitemap-template/)を参照。
 
-<br />
+<br>
 
 まずはGoogle Search Consoleの登録。  
 URLプレフィックスの方に登録するサイトのURLを入力し、続行します。
 
-<br />
+<br>
 
 ![sitemap01](/images/sitemap01.png)
 
-<br />
+<br>
 
 Google Analyticsに登録していなかったり、DNSレコードが関連付けられていない場合は、サイトの所有権が確認できていない状態なので、確認をとる必要があります。  
 ファイルをダウンロードし、デプロイ先のリポジトリ直下にhtmlファイルを配置したあと、確認ボタンを押してください。
 
-<br />
+<br>
 
 ![sitemap02](/images/sitemap02.png)
 
-<br />
+<br>
 
 そのままだとHTMLがファイルが消えた場合に関連付けができなくなってしまうので、サイト内にメタタグを埋め込みます。  
 設定からHTMLタグを選択し、表示されたコードをコピー。  
 \<head\>タグ内にペーストし、サイトに適用されたら確認ボタンを押します。
 
-<br />
+<br>
 
 ![sitemap03](/images/sitemap03.png)
 
-<br />
+<br>
 
 **https://[ユーザー名].github.io/[リポジトリ名]/sitemap.xml**のURLでサイトマップが作成されていると思うので、  
 Google Search Consoleのサイトマップから、サイトマップのパスを入力して送信します。
 
-<br />
+<br>
 
 ![sitemap04](/images/sitemap04.png)
 
-<br />
+<br>
 
 これで2, 3日待てばGoogle検索に引っかかるようになります。

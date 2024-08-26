@@ -10,14 +10,15 @@ pluralizeListTitles = false
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+      hardWraps = true
 
 # Markdown内で任意のブロックにCSSを指定できるようになる
 [markup.goldmark.parser.attribute]
-block = true
+  block = true
 
 # サイトマップ設定
 [sitemap]
-changefreq = "daily"
-priority = 0.5
+  changefreq = "daily"
+  priority = 0.5
 
 # テーマ設定
