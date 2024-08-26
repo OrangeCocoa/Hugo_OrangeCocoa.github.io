@@ -1,5 +1,6 @@
 # フォルダ除外
 public/
+_gen/
 
 # ファイル除外
 *.hugo_build.lock
