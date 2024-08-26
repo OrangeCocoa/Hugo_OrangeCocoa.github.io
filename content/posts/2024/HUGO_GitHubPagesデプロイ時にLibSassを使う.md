@@ -43,7 +43,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,10 +61,6 @@ jobs:
       - name: Build
         run: hugo --minify
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
