@@ -1,16 +1,16 @@
 {{ define "main" }}
 {{ partial "header.html"}}
-<div>
-    <a href="#" id="page_top"></a>
-    <div id="page_contents_body">
-        <div id="page_contents_date">{{ .Date.Format "2006.01.02" }}</div>
-        <div id="page_contents_title">{{ .Title }}</div>
+<section class="section">
+    <a href="#" class="page-top"></a>
+    <div class="container">
+        <div class="page-contents-date">{{ .Date.Format "2006.01.02" }}</div>
+        <div class="page-contents-title">{{ .Title }}</div>
         <div>
             {{ range .Params.tags }}
             <a href="{{ $.Site.BaseURL }}/tags/{{ . | urlize}}">#{{ . }}</a>
             {{ end }}
         </div>
-        <div id="page_contents_text">
+        <div class="page-contents-body">
             {{ .Content }}
         </div>
         
@@ -33,5 +33,5 @@
         </script>
         <noscript>Please enable JavaScript to view the comments powered by giscus.</noscript>
     </div>
-</div>
+</section>
 {{ end }}

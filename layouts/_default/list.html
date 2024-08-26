@@ -1,12 +1,12 @@
 {{ define "main" }}
 {{ partial "header.html"}}
-<div id="top_contents">
-    <div>
-        <div id="infotablearea_head">記事一覧</div>
+<section class="section">
+    <div class="container">
+        <div class="infotable-head">記事一覧</div>
         {{ range (.Paginator 10).Pages }}
         <p>{{ .Date.Format "2006.01.02" }} </p>
         <a href="{{ .RelPermalink }}">{{ .Title }}</a><br />
         {{ end }}
     </div>
-</div>
+</section>
 {{ end }}

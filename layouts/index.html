@@ -1,12 +1,12 @@
 {{ define "main" }}
 {{ partial "header.html"}}
-<div id="trophy_card">
+<div class="trophy-card">
     <a href="https://psnprofiles.com/orange_cocoa_" target="_blank"><img src="https://card.psnprofiles.com/2/orange_cocoa_.png" width=500 height="165" border="0"></a>
 </div>
-<div id="top_contents">
-    <div id="top_right">
-        <div id="top_right_head">新着記事</div>
-        <div id="infotable">
+<section class="section">
+    <div class="container">
+        <div class="infotable-head">新着記事</div>
+        <div class="infotable">
             <!--全記事をループで回す-->
             {{ range first 10 .Site.RegularPages.ByDate.Reverse }}
             <p>{{ .Date.Format "2006.01.02" }} </p>
@@ -22,5 +22,5 @@
             {{ end }}
         </div>
     </div>
-</div>
+</section>
 {{ end }}

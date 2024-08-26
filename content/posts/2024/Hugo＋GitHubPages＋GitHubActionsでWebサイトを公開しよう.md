@@ -52,7 +52,7 @@ HugoHTMLでよく使うGoテンプレートの基本構文は[ここ](https://ju
 - [Markdown内でmermaid記法を使う](#markdown-mermaid)
 - [Markdown内でCSS定義したスタイルを使う](#markdown-css)
 - [Markdown内でGoAT記法を使う](#markdown-goat)
-- [Google検索で表示させる](#google-search)
+- [Google検索結果に表示させる](#google-search)
 
 
 ---
@@ -815,7 +815,7 @@ sequenceDiagram
 
 
 ---
-### Google検索で表示させる {#google-search}
+### Google検索結果に表示させる {#google-search}
 Google検索に引っ掛けるには、Webページのサイトマップを作成し、[Google Search Console](https://search.google.com/search-console/about?hl=ja)で登録する必要があります。
 サイトマップはHugoによってデフォルトで作成されるようになっているので、特に設定することはありません。  
 カスタマイズする場合は[こちら](https://juggernautjp.info/templates/sitemap-template/)を参照。
