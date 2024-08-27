@@ -7,8 +7,9 @@
     <div class="container">
         <div class="infotable-head">新着記事</div>
         <div class="infotable">
-            <!--全記事をループで回す-->
-            {{ range first 10 .Site.RegularPages.ByDate.Reverse }}
+            <!--postsセクションの全記事をループで回す-->
+            {{ $p := .Site.GetPage "/posts" }}
+            {{ range first 10 $p.RegularPages.ByDate.Reverse }}
             <p>{{ .Date.Format "2006.01.02" }} </p>
             <div>
                 <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
