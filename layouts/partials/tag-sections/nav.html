@@ -1,7 +1,11 @@
 <section>
     <nav id="global-navi-bg">
         <ul id="global-navi">
-            <li><a id="navi-item" href="{{ absURL "" }}" >TOPページ</a></li>
+            {{ range .Site.Menus.main.ByWeight -}}
+            {{ .Pre }}
+            <li><a id="navi-item" href="{{ .URL }}" title="{{ .Identifier }}">{{- .Name -}}</a></li>
+            {{ .Post }}
+            {{- end }}
         </ul>
     </nav>
 </section>

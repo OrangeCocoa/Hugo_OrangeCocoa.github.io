@@ -2,8 +2,8 @@
 <html lang="ja">
 {{ partial "tag-sections/head.html" . }}
 <body>
-    {{ partial "header.html" }}
-    {{ partial "tag-sections/nav.html" }}
+    {{ partial "header.html" . }}
+    {{ partial "tag-sections/nav.html" . }}
     <section id="main">
         {{ block "main" . }}{{ end }}
     </section>
