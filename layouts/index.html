@@ -5,20 +5,37 @@
 <section class="section">
     <div class="container">
         <div class="infotable-head">新着記事</div>
-        <div class="infotable">
+        <div class="post-lists">
             <!--postsセクションの全記事をループで回す-->
             {{ $p := .Site.GetPage "/posts" }}
             {{ range first 10 $p.RegularPages.ByDate.Reverse }}
-            <p>{{ .Date.Format "2006.01.02" }} </p>
-            <div>
-                <a href="{{ .RelPermalink }}" style="font-size:22px;">{{ .Title }}</a>
-                <br />
-                <!--タグを全て表示する-->
-                {{ range .Params.tags }}
-                <a href="{{ $.Site.BaseURL }}tags/{{ . | urlize}}" style="font-size:12px;">#{{ . }}</a>
+            <div class="box post-box">
+                <div class="mb-2">
+                    {{ .Date.Format "2006/01/02" }}
+                    <br>
+                    <a href="{{ .RelPermalink }}" class="title is-5">{{ .Title }}</a>
+                </div>
+                {{ with (.GetTerms "tags") }}
+                <div class="post-box-tags">
+                    {{- range .}}
+                    <span class="post-tag mr-2 post-box-tag">
+                        <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
+                    </span>
+                    {{- end }}
+                </div>
                 {{ end }}
+                <div class="post-box-meta">
+                    <div class="post-box-time">
+                        {{ with (.GetTerms "categories") }} categories: 
+                        {{- range .}}
+                        <span class="post-cat mr-2">
+                            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+                        </span>
+                        {{- end }}
+                        {{ end }}
+                    </div>
+                </div>
             </div>
-            <br />
             {{ end }}
         </div>
     </div>

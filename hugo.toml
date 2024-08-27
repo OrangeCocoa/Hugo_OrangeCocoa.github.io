@@ -1,6 +1,7 @@
 baseURL = 'https://OrangeCocoa.github.io'
 languageCode = 'ja-jp'
 title = '天上天下唯我独尊備忘録雑記メモ覚書'
+paginate = 10
 
 # セクション名を自動で複数形化するのを防ぐ
 pluralizeListTitles = false
@@ -20,4 +21,30 @@ pluralizeListTitles = false
   changefreq = "daily"
   priority = 0.5
 
-# テーマ設定
+# .Site.Menus.mainで取得できる
+[menu]
+  [[menu.main]]
+    identifier = "index"
+    name = "TOPページ"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "archives"
+    name = "Archives"
+    url = "/nav/archives/"
+    weight = 2
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 3
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/nav/about/"
+    weight = 4
+  [[menu.main]]
+    identifier = "search"
+    name = "Search"
+    url = "/nav/search/"
+    weight = 5
