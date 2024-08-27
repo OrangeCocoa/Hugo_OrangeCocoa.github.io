@@ -124,20 +124,10 @@ ul#global-navi li.current a {
     background-position: left center;
 }
 
-ul#global-navi li a#navi-home,
-ul#global-navi li a#navi-rss {
+ul#global-navi li a#navi-item {
 	font-size: 14px;
 	font-weight: bold;
 }
-
-ul#global-navi li a#navi-about,
-ul#global-navi li a#navi-contact,
-ul#global-navi li a#navi-privacy {
-	font-size: 13px;
-	font-weight: bold;
-	padding: 9px 5px;
-}
-
 /*============================================
 TOPページ
 ============================================*/
