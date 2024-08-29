@@ -418,11 +418,11 @@ GitHubにHUGOのデプロイ先と、HUGOプロジェクトの二つのリポジ
 
 <br>
 
-その後、プロジェクト直下から `.github/workflows/gh-pages.yml` ファイルを作成して以下の実行処理を記載。
+その後、プロジェクト直下から `.github/workflows/config.yml` ファイルを作成して以下の実行処理を記載。
 
 <br>
 
-``` gh-pages.yml
+``` config.yml
 name: github pages
 
 on:
