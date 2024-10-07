@@ -10,7 +10,7 @@ tags: [ "トロフィー" ]
 
 <br>
 
-![bluepro](/images/games/bluepro_trocon.jpg)
+![bluepro](/images/games/bluepro/trocon.jpg)
 
 <br>
 
