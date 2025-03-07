@@ -6,11 +6,11 @@ categories: [ "ゲーム" ]
 tags: [ "トロフィー" ] 
 ---
 
-トロコンしました。  
+2024/8/12 トロコンしました。  
 
 <br>
 
-![bluepro](/images/games/bluepro/trocon.jpg)
+![bluepro](/images/games/bluepro/trophy.jpg)
 
 <br>
 
