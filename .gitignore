@@ -4,3 +4,4 @@ _gen/
 
 # ファイル除外
 *.hugo_build.lock
+*.bat
