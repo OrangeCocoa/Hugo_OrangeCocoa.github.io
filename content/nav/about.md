@@ -4,6 +4,8 @@ description: "About"
 type: about
 ---
 
+## <span style="color: orange; ">Orange Cocoa</span>
+
 ゲームプログラマーです。  
 ゲーム以外にもいろいろやってますが、メインはゲームです。  
 主な生息地はC/C++, C#, Unity。グラフィックスAPIも少々。  
@@ -23,5 +25,8 @@ type: about
 
 <br>
 
-X  
+<!-- 
+X: [ruin0908](https://twitter.com/ruin0908)  
+-->
+
 <a href="https://twitter.com/ruin0908?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @ruin0908</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
